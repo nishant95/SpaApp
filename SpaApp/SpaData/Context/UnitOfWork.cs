@@ -10,8 +10,8 @@ namespace SpaData
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        #region Privates
-        private readonly SpaContext _context = new SpaContext();
+        #region Private Fields
+        private readonly SpaContext _context;
 
         private RepositoryBase<SpaContext, Person> _persons;
         #endregion
@@ -20,10 +20,13 @@ namespace SpaData
         /// <summary>
         /// Default Constructor for UnitOfWork
         /// </summary>
-        public UnitOfWork() { }
+        public UnitOfWork(SpaContext spaContext)
+        {
+            _context = spaContext;
+        }
         #endregion
 
-        #region Repositories
+        #region Properties (Repositories)
         public IRepository<Person> Persons
         {
             get

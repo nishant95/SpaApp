@@ -17,8 +17,12 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
     "SpaData": "1.0.0-*",
-    "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final"
+    "SpaDto": "1.0.0-*",
+    "AutoMapper": "5.2.0",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.2.0",
+    "Swashbuckle": "6.0.0-beta902"
   },
 
   "tools": {

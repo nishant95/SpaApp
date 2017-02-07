@@ -33,7 +33,7 @@ namespace SpaData.Repository
 
         #region Methods
 
-        public TEntity Get(int id)
+        public TEntity Get(long id)
         {
             return Context.Set<TEntity>().Find(id);
         }

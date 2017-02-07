@@ -14,7 +14,7 @@ namespace SpaData.Repository
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, string includeProperties);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeProperties);
-        TEntity Get(int id);
+        TEntity Get(long id);
         IQueryable<TEntity> GetAll();
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);

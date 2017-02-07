@@ -6,7 +6,7 @@ namespace SpaApi.Services
     {
         #region Fields
 
-        protected IUnitOfWork _unitOfWork;
+        protected UnitOfWork _unitOfWork;
 
         #endregion
     }
