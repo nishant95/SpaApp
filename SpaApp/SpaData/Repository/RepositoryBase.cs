@@ -6,23 +6,32 @@ using System.Linq.Expressions;
 
 namespace SpaData.Repository
 {
-    public class RepositoryBase<TDBContext, TEntity> 
+    public class RepositoryBase<TDbContext, TEntity> : IRepository<TEntity>
         where TEntity : class
-        where TDBContext : DbContext, new()
+        where TDbContext : DbContext, new()
     {
-        public RepositoryBase(TDBContext context)
+        #region Privates and Constants
+        private TDbContext _entities;
+        #endregion
+
+        #region Constructors
+        public RepositoryBase(TDbContext context)
         {
             _entities = context;
         }
+        #endregion
 
-        private TDBContext _entities;
+        #region Properties
 
-        public TDBContext Context
+        public TDbContext Context
         {
-
             get { return _entities; }
             set { _entities = value; }
         }
+
+        #endregion
+
+        #region Methods
 
         public TEntity Get(int id)
         {
@@ -101,6 +110,6 @@ namespace SpaData.Repository
             Context.Set<TEntity>().RemoveRange(entities);
         }
 
+        #endregion
     }
 }
-
