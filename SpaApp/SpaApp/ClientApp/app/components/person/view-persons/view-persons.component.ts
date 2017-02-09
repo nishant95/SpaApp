@@ -8,8 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
     template: require('./view-persons.component.html')
 })
 export class ViewPersonsComponent {
-    constructor(private personService: PersonService) {
-    };
+    constructor(private personService: PersonService) { }
 
     persons: PersonDto[] = [];
     

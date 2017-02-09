@@ -1,8 +1,8 @@
 ﻿export class PersonDto {
-    id: number;
-    firstName: string;
-    lastName: string;
-    middleName  :string;
-    email: string;
-    dob: Date;
+    Id: number;
+    FirstName: string;
+    LastName: string;
+    MiddleName  :string;
+    Email: string;
+    Dob: Date;
 }

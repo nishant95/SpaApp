@@ -13,6 +13,7 @@ using SpaData;
 using SpaApi.Services;
 using AutoMapper;
 using Swashbuckle.Swagger.Model;
+using Newtonsoft.Json.Serialization;
 
 namespace SpaApi
 {
@@ -34,7 +35,12 @@ namespace SpaApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ContractResolver =
+                        new DefaultContractResolver();
+                });
+
             services.AddCors();
             services.AddAutoMapper();
             services.AddDbContext<SpaContext>(options =>
@@ -69,8 +75,6 @@ namespace SpaApi
             //Swashbuckle Configuration
             app.UseSwagger();
             app.UseSwaggerUi();
-
-            
         }
     }
 }
