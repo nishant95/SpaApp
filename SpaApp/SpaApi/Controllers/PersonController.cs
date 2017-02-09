@@ -36,7 +36,7 @@ namespace SpaApi
 
         #region Methods
 
-        // GET: api/persons
+        // GET: api/person
         [HttpGet]
         public IEnumerable<PersonDto> Get()
         {
@@ -49,14 +49,14 @@ namespace SpaApi
             return personDtos;
         }
 
-        // GET api/persons/5
+        // GET api/person/5
         [HttpGet("{id}")]
         public PersonDto Get(long id)
         {
             return _mapper.Map<PersonDto>(_personService.GetPerson(id));
         }
 
-        // POST api/persons
+        // POST api/person
         [HttpPost]
         public ActionResult Post([FromBody]PersonDto personDto)
         {
@@ -65,13 +65,13 @@ namespace SpaApi
             return new JsonResult(new { Status = true, Message = "Successful" });
         }
 
-        // PUT api/persons/5
+        // PUT api/person/5
         [HttpPut("{id}")]
         public void Put(long id, [FromBody]PersonDto personDto)
         {
         }
 
-        // DELETE api/persons/5
+        // DELETE api/person/5
         [HttpDelete("{id}")]
         public void Delete(long id)
         {

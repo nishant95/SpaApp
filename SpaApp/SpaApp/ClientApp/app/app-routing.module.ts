@@ -16,9 +16,9 @@ const appRoutes : Routes =
     { path: 'person', component: PersonComponent,
         children:
         [
-            { path: '', redirectTo: 'View', pathMatch: 'full' },
-            { path: 'View', component: ViewPersonsComponent },
-            { path: 'Add', component: AddPersonComponent }
+            { path: '', redirectTo: 'view', pathMatch: 'full' },
+            { path: 'view', component: ViewPersonsComponent },
+            { path: 'add', component: AddPersonComponent }
         ]
     },
     { path: '**', redirectTo: 'home' }

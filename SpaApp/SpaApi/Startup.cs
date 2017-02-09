@@ -14,6 +14,8 @@ using SpaApi.Services;
 using AutoMapper;
 using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace SpaApi
 {
@@ -35,13 +37,19 @@ namespace SpaApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddCors(options=> options.AddPolicy(
+                    "SpaCorsPolicy", 
+                    builder => builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials()));
+
             services.AddMvc()
                 .AddJsonOptions(options => {
                     options.SerializerSettings.ContractResolver =
                         new DefaultContractResolver();
                 });
 
-            services.AddCors();
             services.AddAutoMapper();
             services.AddDbContext<SpaContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SpaDatabase"), option=>option.MigrationsAssembly("SpaApi")));
@@ -67,8 +75,7 @@ namespace SpaApi
             loggerFactory.AddDebug();
 
             //Allow CORS
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin());
+            app.UseCors("SpaCorsPolicy");
 
             app.UseMvc();
 

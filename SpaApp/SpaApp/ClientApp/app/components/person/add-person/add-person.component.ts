@@ -1,4 +1,5 @@
 ﻿import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PersonService } from '../../../services/person.service';
 import { PersonDto } from '../../../dtos/person.dto';
 
@@ -7,11 +8,17 @@ import { PersonDto } from '../../../dtos/person.dto';
     template: require('./add-person.component.html')
 })
 export class AddPersonComponent {
-    constructor(private personService: PersonService) { }
+    constructor(private router: Router, private personService: PersonService) { }
 
-    persons: PersonDto;
+    person: PersonDto = new PersonDto();
 
     addPerson() {
-
+        this.personService.addPerson(this.person).subscribe(
+            value => {
+                this.router.navigateByUrl('person/view');
+            },
+            error => {
+                this.router.navigateByUrl('person/view');
+            });
     }
 }

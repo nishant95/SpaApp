@@ -1,1 +1,55 @@
-﻿
+﻿<h3>Add Person</h3>
+<br/>
+<form class="form">
+    <div class="form-group row">
+        <label class="col-md-2">First Name</label>
+        <div class="col-md-5">
+            <input type="text" 
+                   class="form-control" 
+                   name="FirstName"
+                   [(ngModel)]="person.FirstName" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">Middle Name</label>
+        <div class="col-md-5">
+            <input type="text" 
+                   class="form-control" 
+                   name="MiddleName"
+                   [(ngModel)]="person.MiddleName" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">Last Name</label>
+        <div class="col-md-5">
+            <input type="text"
+                   class="form-control" 
+                   name="LastName"
+                   [(ngModel)]="person.LastName" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">Email</label>
+        <div class="col-md-5">
+            <input type="text" 
+                   class="form-control" 
+                   name="Email"
+                   [(ngModel)]="person.Email" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">Date of Birth</label>
+        <div class="col-md-5">
+            <input type="text" 
+                   class="form-control" 
+                   name="Dob"
+                   [(ngModel)]="person.Dob" />
+        </div>
+    </div>
+
+    <button (click)="addPerson()" class="btn btn-primary">Add Person</button>
+</form>
