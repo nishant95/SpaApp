@@ -8,14 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SpaData.Context;
-using SpaData;
-using SpaApi.Services;
 using AutoMapper;
 using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
+
+using SpaData.Context;
+using SpaData;
+using SpaApi.Services;
 
 namespace SpaApi
 {

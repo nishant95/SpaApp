@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpaApi.Services;
 using SpaData.Models;
-using SpaDto.SpaDtos;
+using SpaApi.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,36 +39,48 @@ namespace SpaApi
 
         // GET: api/person
         [HttpGet]
-        public IEnumerable<PersonDto> Get()
+        public IEnumerable<PersonViewModel> Get()
         {
-            List<PersonDto> personDtos = new List<PersonDto>();
+            List<PersonViewModel> personViewModels = new List<PersonViewModel>();
             List<Person> persons = _personService.GetAllPersons().ToList();
             foreach(var person in persons)
             {
-                personDtos.Add(_mapper.Map<PersonDto>(person));
+                personViewModels.Add(_mapper.Map<PersonViewModel>(person));
             }
-            return personDtos;
+            return personViewModels;
         }
 
         // GET api/person/5
         [HttpGet("{id}")]
-        public PersonDto Get(long id)
+        public PersonViewModel Get(long id)
         {
-            return _mapper.Map<PersonDto>(_personService.GetPerson(id));
+            return _mapper.Map<PersonViewModel>(_personService.GetPerson(id));
         }
 
         // POST api/person
         [HttpPost]
-        public ActionResult Post([FromBody]PersonDto personDto)
+        public ActionResult Post([FromBody]PersonViewModel personViewModel)
         {
-            Person person = _mapper.Map<PersonDto, Person>(personDto);
+            if(!ModelState.IsValid)
+            {
+                IEnumerable<ModelError> allErrors = ModelState.Values
+                    .SelectMany(v => v.Errors);
+                return new JsonResult(new
+                {
+                    Status = false,
+                    Message = "Unsuccessful",
+                    Errors = allErrors
+                });
+            }
+
+            Person person = _mapper.Map<PersonViewModel, Person>(personViewModel);
             _personService.AddPerson(person);
             return new JsonResult(new { Status = true, Message = "Successful" });
         }
 
         // PUT api/person/5
         [HttpPut("{id}")]
-        public void Put(long id, [FromBody]PersonDto personDto)
+        public void Put(long id, [FromBody]PersonViewModel personViewModel)
         {
         }
 
