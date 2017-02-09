@@ -35,6 +35,7 @@ namespace SpaApi
         {
             // Add framework services.
             services.AddMvc();
+            services.AddCors();
             services.AddAutoMapper();
             services.AddDbContext<SpaContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SpaDatabase"), option=>option.MigrationsAssembly("SpaApi")));
@@ -59,11 +60,17 @@ namespace SpaApi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            //Allow CORS
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin());
+
             app.UseMvc();
 
             //Swashbuckle Configuration
             app.UseSwagger();
             app.UseSwaggerUi();
+
+            
         }
     }
 }
