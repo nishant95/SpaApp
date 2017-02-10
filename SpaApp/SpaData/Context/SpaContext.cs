@@ -17,7 +17,7 @@ namespace SpaData.Context
         { }
 
         public SpaContext() { }
-
+        
         // Entity declarations
         public DbSet<Person> Person{ get; set; }
 

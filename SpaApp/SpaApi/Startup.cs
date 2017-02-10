@@ -9,12 +9,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
-using Swashbuckle.Swagger.Model;
 using Newtonsoft.Json.Serialization;
+using IdentityServer4.AccessTokenValidation;
 
 using SpaData.Context;
 using SpaData;
 using SpaApi.Services;
+using SpaApi.Swashbuckle;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace SpaApi
 {
@@ -36,12 +38,28 @@ namespace SpaApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddCors(options=> options.AddPolicy(
-                    "SpaCorsPolicy", 
-                    builder => builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials()));
+            services.AddCors(options=>
+            {
+                options.AddPolicy("SpaCorsPolicy",builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("spaAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "spa.admin");
+                });
+                options.AddPolicy("spaUser", policyUser =>
+                {
+                    policyUser.RequireClaim("role", "spa.user");
+                });
+            });
 
             services.AddMvc()
                 .AddJsonOptions(options => {
@@ -59,11 +77,24 @@ namespace SpaApi
 
             // Swashbuckle Configuration
             services.AddSwaggerGen(c => {
-                c.SingleApiVersion(new Info(){
+                c.SwaggerDoc("v1", new Info(){
                     Contact = new Contact() { Email = "nishant.h@mindfiresolutions.com", Name = "Nishant" },
                     Title = "SpaApi Docs",
                     Version = "v1"
                 });
+
+                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "implicit",
+                    AuthorizationUrl = "http://localhost:54412/Consent",
+                    Scopes = new Dictionary<string, string>
+                    {
+                        { "spa", "Access the Api" }
+                    }
+                });
+
+                c.OperationFilter<SwaggerAuthFilter>();
             });
         }
 
@@ -76,11 +107,62 @@ namespace SpaApi
             //Allow CORS
             app.UseCors("SpaCorsPolicy");
 
+            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
+            {
+                Authority = "http://localhost:54412/",
+                AllowedScopes = new List<string> { "spa" },
+                ApiSecret = "spaSecret",
+                ApiName = "spa",
+                AutomaticAuthenticate = true,
+                SupportedTokens = SupportedTokens.Both,
+                // TokenRetriever = _tokenRetriever,
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false
+            };
+
+            app.UseIdentityServerAuthentication(identityServerValidationOptions);
+
             app.UseMvc();
 
             //Swashbuckle Configuration
             app.UseSwagger();
-            app.UseSwaggerUi();
+            app.UseSwaggerUi(c=> 
+            {
+                c.ConfigureOAuth2("angular2client", "", "", "angular2client",additionalQueryStringParameters: new {
+                    returnUrl = "http://localhost:49616/Account/login"
+                });
+
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }
+
+//ClientName = "angular2client",
+//ClientId = "angular2client",
+//AccessTokenType = AccessTokenType.Reference,
+////AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
+//AllowedGrantTypes = GrantTypes.Implicit,
+//AllowAccessTokensViaBrowser = true,
+//RedirectUris = new List<string>
+//{
+//    "http://localhost:65035"
+
+//},
+//PostLogoutRedirectUris = new List<string>
+//{
+//    "http://localhost:65035/Unauthorized"
+//},
+//AllowedCorsOrigins = new List<string>
+//{
+//    "https://localhost:65035",
+//    "http://localhost:65035"
+//},
+//AllowedScopes = new List<string>
+//{
+//    "openid",
+//    "spa",
+//    "spaScope",
+//    "role"
+//}

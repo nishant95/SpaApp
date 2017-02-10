@@ -8,11 +8,13 @@ using SpaData.Models;
 using SpaApi.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SpaApi
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class PersonController : Controller
     {
@@ -37,6 +39,7 @@ namespace SpaApi
 
         #region Methods
 
+        [Authorize("spaUser")]
         // GET: api/person
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
@@ -57,6 +60,7 @@ namespace SpaApi
             return _mapper.Map<PersonViewModel>(_personService.GetPerson(id));
         }
 
+        [Authorize("spaAdmin")]
         // POST api/person
         [HttpPost]
         public ActionResult Post([FromBody]PersonViewModel personViewModel)

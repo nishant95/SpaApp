@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "IdentityServer4.AccessTokenValidation": "1.0.5",
+    "IdentityServer4.AspNetIdentity": "1.0.0",
     "Microsoft.NETCore.App": {
       "version": "1.1.0",
       "type": "platform"
@@ -16,14 +18,16 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
     "SpaData": "1.0.0-*",
     "AutoMapper": "5.2.0",
     "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.2.0",
-    "Swashbuckle": "6.0.0-beta902",
+    //"Swashbuckle": "6.0.0-beta902",
+    "Swashbuckle.AspNetCore": "1.0.0-rc1",
     "Microsoft.AspNetCore.Cors": "1.1.0",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
+    "Microsoft.AspNetCore.Owin": "1.1.0"
   },
 
   "tools": {
