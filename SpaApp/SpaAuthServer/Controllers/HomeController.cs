@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IdentityServer4.Services;
+using SpaAuthServer.Models;
 
 namespace SpaAuthServer.Controllers
 {
@@ -38,18 +39,18 @@ namespace SpaAuthServer.Controllers
         /// <summary>
         /// Shows the error page
         /// </summary>
-        public void Error(string errorId)
+        public async Task<IActionResult> Error(string errorId)
         {
-            //var vm = new ErrorViewModel();
+            var vm = new ErrorViewModel();
 
-            //// retrieve error details from identityserver
-            //var message = await _interaction.GetErrorContextAsync(errorId);
-            //if (message != null)
-            //{
-            //    vm.Error = message;
-            //}
+            // retrieve error details from identityserver
+            var message = await _interaction.GetErrorContextAsync(errorId);
+            if (message != null)
+            {
+                vm.Error = message;
+            }
 
-            //return View("Error", vm);
+            return View("Error", vm);
         }
     }
 }

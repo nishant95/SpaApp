@@ -38,6 +38,8 @@ namespace SpaApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+
+            //Cross-origin requests policy
             services.AddCors(options=>
             {
                 options.AddPolicy("SpaCorsPolicy",builder =>
@@ -49,6 +51,7 @@ namespace SpaApi
                 });
             });
 
+            // Configuration for Auth Server
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("spaAdmin", policyAdmin =>
@@ -87,10 +90,13 @@ namespace SpaApi
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = "http://localhost:54412/Consent",
+                    AuthorizationUrl = "http://localhost:54412/connect/authorize",
+                    TokenUrl= "http://localhost:54412/connect/token",
                     Scopes = new Dictionary<string, string>
                     {
-                        { "spa", "Access the Api" }
+                        { "spaApi", "Access the Api" },
+                        { "spa.user", "User Access" },
+                        { "spa.admin", "Admin Access" }
                     }
                 });
 
@@ -110,9 +116,9 @@ namespace SpaApi
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "http://localhost:54412/",
-                AllowedScopes = new List<string> { "spa" },
+                AllowedScopes = new List<string> { "spaApi", "spa.user","spa.admin" },
                 ApiSecret = "spaSecret",
-                ApiName = "spa",
+                ApiName = "spaApi",
                 AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
@@ -129,8 +135,8 @@ namespace SpaApi
             app.UseSwagger();
             app.UseSwaggerUi(c=> 
             {
-                c.ConfigureOAuth2("angular2client", "", "", "angular2client",additionalQueryStringParameters: new {
-                    returnUrl = "http://localhost:49616/Account/login"
+                c.ConfigureOAuth2("swaggerclient", "", "", "swaggerclient", additionalQueryStringParameters: new {
+                    redirect_uri = "http://localhost:49616/swagger/o2c.html"
                 });
 
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
@@ -138,31 +144,3 @@ namespace SpaApi
         }
     }
 }
-
-//ClientName = "angular2client",
-//ClientId = "angular2client",
-//AccessTokenType = AccessTokenType.Reference,
-////AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
-//AllowedGrantTypes = GrantTypes.Implicit,
-//AllowAccessTokensViaBrowser = true,
-//RedirectUris = new List<string>
-//{
-//    "http://localhost:65035"
-
-//},
-//PostLogoutRedirectUris = new List<string>
-//{
-//    "http://localhost:65035/Unauthorized"
-//},
-//AllowedCorsOrigins = new List<string>
-//{
-//    "https://localhost:65035",
-//    "http://localhost:65035"
-//},
-//AllowedScopes = new List<string>
-//{
-//    "openid",
-//    "spa",
-//    "spaScope",
-//    "role"
-//}

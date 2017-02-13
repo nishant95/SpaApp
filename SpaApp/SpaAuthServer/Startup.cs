@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SpaAuthServer.Models;
 using IdentityServer4.Services;
 using SpaAuthServer.Data;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using IdentityServer4.Models;
 
 namespace SpaAuthServer
 {
@@ -45,6 +48,10 @@ namespace SpaAuthServer
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var cert = new X509Certificate2(
+                Path.Combine(_environment.ContentRootPath,"idsrv3test.pfx"),
+                "idsrv3test");
+
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("SpaAuthDatabase"),
                 option =>
@@ -60,11 +67,12 @@ namespace SpaAuthServer
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
 
             services.AddIdentityServer()
+                .AddSigningCredential(cert)
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
+                .AddTestUsers(Config.GetUsers());
+                //.AddProfileService<IdentityWithAdditionalClaimsProfileService>();
 
             services.AddMvc();
         }
@@ -72,7 +80,7 @@ namespace SpaAuthServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(LogLevel.Trace);
 
             if (env.IsDevelopment())
             {

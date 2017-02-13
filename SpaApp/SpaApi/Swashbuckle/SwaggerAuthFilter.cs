@@ -13,11 +13,13 @@ namespace SpaApi.Swashbuckle
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var filterPipeline = context.ApiDescription.ActionDescriptor.FilterDescriptors;
-            var isAuthorized = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is AuthorizeFilter);
-            var allowAnonymous = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is IAllowAnonymousFilter);
+            var authorizeFilters = filterPipeline.Select(filterInfo => filterInfo.Filter).Where(filter => filter is AuthorizeFilter || filter is IAllowAnonymousFilter);
+            //var allowAnonymous = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is IAllowAnonymousFilter);
 
-            if (!isAuthorized)
+            if (authorizeFilters.Count() == 0)
                 return; // must be an anonymous method
+
+            
 
             var scopes = context.ApiDescription.ActionDescriptor.FilterDescriptors
                 .Select(filterInfo => filterInfo.Filter)
@@ -30,7 +32,7 @@ namespace SpaApi.Swashbuckle
 
             var oAuthRequirements = new Dictionary<string, IEnumerable<string>>
             {
-                {"oauth2", new List<string> {"spa"}}
+                {"oauth2", new List<string> {"spaApi"}}
             };
 
             operation.Security.Add(oAuthRequirements);

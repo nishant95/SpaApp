@@ -39,8 +39,12 @@ namespace SpaApi
 
         #region Methods
 
-        [Authorize("spaUser")]
         // GET: api/person
+        /// <summary>
+        /// Returns all persons.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles ="spa.user")]
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {
@@ -54,14 +58,24 @@ namespace SpaApi
         }
 
         // GET api/person/5
+        /// <summary>
+        /// Get a person by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public PersonViewModel Get(long id)
         {
             return _mapper.Map<PersonViewModel>(_personService.GetPerson(id));
         }
 
-        [Authorize("spaAdmin")]
         // POST api/person
+        /// <summary>
+        /// Add a person
+        /// </summary>
+        /// <param name="personViewModel"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "spa.admin")]
         [HttpPost]
         public ActionResult Post([FromBody]PersonViewModel personViewModel)
         {
@@ -83,12 +97,21 @@ namespace SpaApi
         }
 
         // PUT api/person/5
+        /// <summary>
+        /// Update a person using the id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="personViewModel"></param>
         [HttpPut("{id}")]
         public void Put(long id, [FromBody]PersonViewModel personViewModel)
         {
         }
 
         // DELETE api/person/5
+        /// <summary>
+        /// Delete a person using id.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
