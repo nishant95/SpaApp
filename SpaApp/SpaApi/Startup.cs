@@ -17,6 +17,8 @@ using SpaData;
 using SpaApi.Services;
 using SpaApi.Swashbuckle;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace SpaApi
 {
@@ -101,6 +103,9 @@ namespace SpaApi
                 });
 
                 c.OperationFilter<SwaggerAuthFilter>();
+
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "SpaApi.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 
@@ -116,7 +121,7 @@ namespace SpaApi
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "http://localhost:54412/",
-                AllowedScopes = new List<string> { "spaApi", "spa.user","spa.admin" },
+                AllowedScopes = new List<string> { "spaApi","spaScope", "spa.user","spa.admin" },
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
                 AutomaticAuthenticate = true,
