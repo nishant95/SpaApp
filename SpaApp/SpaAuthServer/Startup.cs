@@ -71,8 +71,9 @@ namespace SpaAuthServer
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddTestUsers(Config.GetUsers());
-                //.AddProfileService<IdentityWithAdditionalClaimsProfileService>();
+                .AddAspNetIdentity<ApplicationUser>()
+                //.AddTestUsers(Config.GetUsers())
+                .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
 
             services.AddMvc();
         }

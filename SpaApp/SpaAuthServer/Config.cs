@@ -14,7 +14,7 @@ namespace SpaAuthServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                //new IdentityResource("spa", new []{ "role", "admin", "user", "spa", "spa.admin" , "spa.user" } )
+                new IdentityResource("spaScope", new []{ "role", "admin", "user", "spa", "spa.admin" , "spa.user" } )
             };
         }
 
@@ -32,11 +32,11 @@ namespace SpaAuthServer
                     {
                         new Scope
                         {
-                            Name = "spaApi",
+                            Name = "spaScope",
                             DisplayName = "Scope for the spa ApiResource"
                         }
                     },
-                    UserClaims = { "role", "admin", "user", "spa.admin", "spa.user" }
+                    UserClaims = { "role", "admin", "user", "spaApi", "spa.admin", "spa.user" }
                 }
             };
         }
@@ -49,6 +49,7 @@ namespace SpaAuthServer
             {
                 new Client
                 {
+                    RequireConsent = false,
                     ClientName = "swaggerclient",
                     ClientId = "swaggerclient",
                     AccessTokenType = AccessTokenType.Reference,
@@ -75,15 +76,15 @@ namespace SpaAuthServer
                     },
                     AllowedScopes = new List<string>
                     {
-                        "spa",
                         "openid",
                         "spaApi",
-                        "spa.user",
-                        "spa.admin"
+                        "spaScope",
+                        "role"
                     }
                 },
                 new Client
                 {
+                    RequireConsent = false,
                     ClientName = "angularclient",
                     ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
@@ -92,6 +93,7 @@ namespace SpaAuthServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
+                        "https://www.getpostman.com/oauth2/callback",
                         "http://localhost:49616/swagger",
                         "http://localhost:49616/swagger/o2c.html"
                     },
@@ -106,11 +108,10 @@ namespace SpaAuthServer
                     },
                     AllowedScopes = new List<string>
                     {
-                        "spa",
-                        "openid",
+                       "openid",
                         "spaApi",
-                        "spa.user",
-                        "spa.admin"
+                        "spaScope",
+                        "role"
                     }
                 }
             };

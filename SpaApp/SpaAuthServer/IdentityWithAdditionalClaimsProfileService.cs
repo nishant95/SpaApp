@@ -36,7 +36,6 @@ namespace SpaAuthServer
 
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
             
-
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
 
             if (user.IsAdmin)
@@ -53,13 +52,13 @@ namespace SpaAuthServer
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.admin"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
-                claims.Add(new Claim(JwtClaimTypes.Scope, "spa"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "spaApi"));
             }
             else
             {
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
-                claims.Add(new Claim(JwtClaimTypes.Scope, "spa"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "spaApi"));
             }
 
             claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
