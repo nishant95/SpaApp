@@ -44,9 +44,10 @@ namespace SpaAuthServer
         // clients want to access resources (aka scopes)
         public static IEnumerable<Client> GetClients()
         {
-            // client credentials client
+            // client credentials list
             return new List<Client>
             {
+                #region Swagger client
                 new Client
                 {
                     RequireConsent = false,
@@ -82,6 +83,9 @@ namespace SpaAuthServer
                         "role"
                     }
                 },
+                #endregion
+
+                #region Angular Client
                 new Client
                 {
                     RequireConsent = false,
@@ -113,10 +117,47 @@ namespace SpaAuthServer
                         "spaScope",
                         "role"
                     }
+                },
+                #endregion
+
+                #region Postman
+                new Client
+                {
+                    //RequireConsent = false,
+                    ClientName = "postman",
+                    ClientId = "postman",
+                    AccessTokenType = AccessTokenType.Reference,
+                    //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+                    //ClientSecrets = new List<Secret>
+                    //{
+                    //    new Secret("swaggersecret".Sha256())
+                    //},
+                    RedirectUris = new List<string>
+                    {
+                        "https://www.getpostman.com/oauth2/callback",
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "*"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "spaApi",
+                        "spaScope",
+                        "role"
+                    }
                 }
+                #endregion
             };
         }
-
+        
         internal static List<TestUser> GetUsers()
         {
             return new List<TestUser>

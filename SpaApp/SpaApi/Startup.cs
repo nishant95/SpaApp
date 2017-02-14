@@ -85,7 +85,7 @@ namespace SpaApi
                 c.SwaggerDoc("v1", new Info(){
                     Contact = new Contact() { Email = "nishant.h@mindfiresolutions.com", Name = "Nishant" },
                     Title = "SpaApi Docs",
-                    Version = "v1"
+                    Version="v1"
                 });
 
                 c.AddSecurityDefinition("oauth2", new OAuth2Scheme
@@ -144,7 +144,7 @@ namespace SpaApi
                     redirect_uri = "http://localhost:49616/swagger/o2c.html"
                 });
 
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpaApi");
             });
         }
     }

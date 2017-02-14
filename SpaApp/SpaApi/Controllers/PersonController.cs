@@ -10,10 +10,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SpaApi
 {
+    /// <summary>
+    /// Manage Persons
+    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     public class PersonController : Controller
@@ -44,7 +45,7 @@ namespace SpaApi
         /// Returns all persons.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles ="spa.user")]
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {
