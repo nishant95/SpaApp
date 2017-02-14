@@ -12,6 +12,7 @@ import { PersonComponent } from './components/person/person.component';
 import { AddPersonComponent } from './components/person/add-person/add-person.component';
 import { ViewPersonsComponent } from './components/person/view-persons/view-persons.component';
 import { PersonService } from './services/person.service';
+import { SecurityService } from './services/security.service';
 import { APP_CONFIG, AppConfig } from './app-config';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { APP_CONFIG, AppConfig } from './app-config';
     ],
     providers: [
         PersonService,
+        SecurityService,
         { provide: APP_CONFIG, useValue: AppConfig }
     ]
 })

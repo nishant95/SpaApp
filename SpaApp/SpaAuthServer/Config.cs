@@ -34,9 +34,21 @@ namespace SpaAuthServer
                         {
                             Name = "spaScope",
                             DisplayName = "Scope for the spa ApiResource"
+                        },
+                        new Scope
+                        {
+                            Name = "spa.admin",
+                            DisplayName = "Scope for the spa Admin",
+                            UserClaims= { "spa.admin" }
+                        },
+                        new Scope
+                        {
+                            Name = "spa.user",
+                            DisplayName = "Scope for the spa User",
+                            UserClaims= {  "spa.user" }
                         }
-                    },
-                    UserClaims = { "role", "admin", "user", "spaApi", "spa.admin", "spa.user" }
+                    }
+                    //UserClaims = { "role", "admin", "user", "spaApi" }
                 }
             };
         }
@@ -64,7 +76,9 @@ namespace SpaAuthServer
                     RedirectUris = new List<string>
                     {
                         "http://localhost:49616/swagger",
-                        "http://localhost:49616/swagger/o2c.html"
+                        "https://localhost:49616/swagger",
+                        "http://localhost:49616/swagger/o2c.html",
+                        "https://localhost:49616/swagger/o2c.html"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
@@ -80,7 +94,9 @@ namespace SpaAuthServer
                         "openid",
                         "spaApi",
                         "spaScope",
-                        "role"
+                        "role",
+                        "spa.user",
+                        "spa.admin"
                     }
                 },
                 #endregion
@@ -158,34 +174,34 @@ namespace SpaAuthServer
             };
         }
         
-        internal static List<TestUser> GetUsers()
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    Username="qwerty",
-                    Password="qwerty",
-                    Claims=new Claim[] {
-                        new Claim("name","qwerty"),
-                        new Claim("email", "qwerty@gmail.com" ),
-                        new Claim("role", "spa.user" ),
-                        new Claim("role", "spaApi")
-                    }
+        //internal static List<TestUser> GetUsers()
+        //{
+        //    return new List<TestUser>
+        //    {
+        //        new TestUser
+        //        {
+        //            Username="qwerty",
+        //            Password="qwerty",
+        //            Claims=new Claim[] {
+        //                new Claim("name","qwerty"),
+        //                new Claim("email", "qwerty@gmail.com" ),
+        //                new Claim("role", "spa.user" ),
+        //                new Claim("role", "spaApi")
+        //            }
 
-                },
-                new TestUser
-                {
-                    Username="asdfg",
-                    Password="asdfg",
-                    Claims=new Claim[] {
-                        new Claim("name","asdfg"),
-                        new Claim("email", "asdfg@gmail.com" ),
-                        new Claim("role", "spa.admin" ),
-                        new Claim("role", "spaApi")
-                    }
-                }
-            };
-        }
+        //        },
+        //        new TestUser
+        //        {
+        //            Username="asdfg",
+        //            Password="asdfg",
+        //            Claims=new Claim[] {
+        //                new Claim("name","asdfg"),
+        //                new Claim("email", "asdfg@gmail.com" ),
+        //                new Claim("role", "spa.admin" ),
+        //                new Claim("role", "spaApi")
+        //            }
+        //        }
+        //    };
+        //}
     }
 }

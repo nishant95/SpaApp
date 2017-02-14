@@ -19,13 +19,21 @@ using SpaApi.Swashbuckle;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.DataProtection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SpaApi
 {
     public class Startup
     {
+        private readonly IHostingEnvironment _env;
+
         public Startup(IHostingEnvironment env)
         {
+            _env = env;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -39,7 +47,17 @@ namespace SpaApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            var folderForKeyStore = Configuration["KeyStore"];
+
+            var cert = new X509Certificate2(
+                Path.Combine(_env.ContentRootPath, "idsrv3test.pfx"),
+                "idsrv3test");
+
+            // Important The folderForKeyStore needs to be backed up.
+            services.AddDataProtection()
+                .SetApplicationName("SpaApi")
+                .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
+                //.ProtectKeysWithCertificate(cert);
 
             //Cross-origin requests policy
             services.AddCors(options=>
@@ -53,20 +71,31 @@ namespace SpaApi
                 });
             });
 
+            var guestPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("scope", "spaApi")
+                .Build();
+
             // Configuration for Auth Server
+            services.AddAuthorization();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("spaAdmin", policyAdmin =>
                 {
-                    policyAdmin.RequireClaim("role", "spa.admin");
+                    //policyAdmin.RequireClaim("role", "spa.admin");
+                    policyAdmin.RequireRole("spa.admin");
                 });
                 options.AddPolicy("spaUser", policyUser =>
                 {
-                    policyUser.RequireClaim("role", "spa.user");
+                    policyUser.RequireRole("spa.user");
+                    //policyUser.RequireClaim("role", "spa.user");
                 });
             });
 
-            services.AddMvc()
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(guestPolicy));
+            })
                 .AddJsonOptions(options => {
                     options.SerializerSettings.ContractResolver =
                         new DefaultContractResolver();
@@ -118,10 +147,11 @@ namespace SpaApi
             //Allow CORS
             app.UseCors("SpaCorsPolicy");
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "http://localhost:54412/",
-                AllowedScopes = new List<string> { "spaApi","spaScope", "spa.user","spa.admin" },
+                AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
                 AutomaticAuthenticate = true,
@@ -129,7 +159,7 @@ namespace SpaApi
                 // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
                 AutomaticChallenge = true,
-                RequireHttpsMetadata = false
+                //RequireHttpsMetadata = false
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);

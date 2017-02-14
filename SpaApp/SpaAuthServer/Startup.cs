@@ -82,6 +82,7 @@ namespace SpaAuthServer
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Trace);
+            loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {

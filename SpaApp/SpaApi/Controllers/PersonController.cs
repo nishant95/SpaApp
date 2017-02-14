@@ -15,7 +15,7 @@ namespace SpaApi
     /// <summary>
     /// Manage Persons
     /// </summary>
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class PersonController : Controller
     {
@@ -45,7 +45,7 @@ namespace SpaApi
         /// Returns all persons.
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        [Authorize(Roles = "spa.user")]
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {
@@ -76,7 +76,7 @@ namespace SpaApi
         /// </summary>
         /// <param name="personViewModel"></param>
         /// <returns></returns>
-        [Authorize(Roles = "spa.admin")]
+        [Authorize(Roles ="spa.admin")]
         [HttpPost]
         public ActionResult Post([FromBody]PersonViewModel personViewModel)
         {

@@ -24,7 +24,6 @@ namespace SpaApi.Controllers
             return "value";
         }
 
-        [Authorize]
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)

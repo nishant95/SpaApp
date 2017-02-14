@@ -29,9 +29,11 @@ namespace SpaApi.Swashbuckle
 
             var authorizeData = authorizeFilters
                 .OfType<AuthorizeFilter>()?
+                .Where(data => null != data.AuthorizeData)?
                 .SelectMany(authorizeFilter =>
-                    authorizeFilter
-                    .AuthorizeData);
+                    authorizeFilter.AuthorizeData);
+
+            if (authorizeData.Count() == 0) return;
 
             var scopes = authorizeData?.Where(data=> null != data.Roles).SelectMany(data =>
                         data?.Roles?.Split(','));

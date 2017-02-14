@@ -4,8 +4,10 @@ export let APP_CONFIG = new OpaqueToken("app-config");
 
 export interface IAppConfig {
     apiEndpoint: string;
+    authorizationUrl: string;
 }
 
 export const AppConfig: IAppConfig = {
-    apiEndpoint: 'http://localhost:49616/api/'
+    apiEndpoint: 'http://localhost:49616/api/',
+    authorizationUrl: 'http://localhost:54412/connect/authorize'
 };
