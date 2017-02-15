@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:49616/",
-      "sslPort": 49616
+      "applicationUrl": "https://localhost:44315/",
+      "sslPort": 44315
     }
   },
   "profiles": {
@@ -15,14 +15,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
-    "SpaApi": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
     }
+    //,
+    //"SpaApi": {
+    //  "commandName": "Project",
+    //  "launchBrowser": true,
+    //  "launchUrl": "https://localhost:5000/api/values",
+    //  "environmentVariables": {
+    //    "ASPNETCORE_ENVIRONMENT": "Development"
+    //  }
+    //}
   }
 }

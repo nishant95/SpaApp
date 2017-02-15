@@ -8,6 +8,7 @@ namespace SpaAuthServer
 {
     public class Config
     {
+        #region In-Memory IdentityResources
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
@@ -17,7 +18,9 @@ namespace SpaAuthServer
                 new IdentityResource("spaScope", new []{ "role", "admin", "user", "spa", "spa.admin" , "spa.user" } )
             };
         }
+        #endregion
 
+        #region In-Memory Api-Resources
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -52,7 +55,9 @@ namespace SpaAuthServer
                 }
             };
         }
+        #endregion
 
+        #region In-Memory Clients
         // clients want to access resources (aka scopes)
         public static IEnumerable<Client> GetClients()
         {
@@ -75,19 +80,19 @@ namespace SpaAuthServer
                     //},
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:49616/swagger",
-                        "https://localhost:49616/swagger",
-                        "http://localhost:49616/swagger/o2c.html",
-                        "https://localhost:49616/swagger/o2c.html"
+                        "http://localhost:44315/swagger",
+                        "https://localhost:44315/swagger",
+                        "http://localhost:44315/swagger/o2c.html",
+                        "https://localhost:44315/swagger/o2c.html"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:49616/swagger"
+                        "http://localhost:44315/swagger"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:49616/",
-                        "http://localhost:49616/"
+                        "https://localhost:44315/",
+                        "http://localhost:44315/"
                     },
                     AllowedScopes = new List<string>
                     {
@@ -105,26 +110,24 @@ namespace SpaAuthServer
                 new Client
                 {
                     RequireConsent = false,
-                    ClientName = "angularclient",
-                    ClientId = "angularclient",
+                    ClientName = "angular2client",
+                    ClientId = "angular2client",
                     AccessTokenType = AccessTokenType.Reference,
-                    //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
+                    //AccessTokenLifetime = 3600, // in seconds, default 60 minutes uncomment to change
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://www.getpostman.com/oauth2/callback",
-                        "http://localhost:49616/swagger",
-                        "http://localhost:49616/swagger/o2c.html"
+                        "http://localhost:65035/"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:49616/logout"
+                        "http://localhost:65035/logout"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:49616/",
-                        "http://localhost:49616/"
+                        "http://localhost:65035/",
+                        "https://localhost:44335/"
                     },
                     AllowedScopes = new List<string>
                     {
@@ -173,7 +176,11 @@ namespace SpaAuthServer
                 #endregion
             };
         }
-        
+
+        #endregion
+
+        //Not in use (For testing only)
+        #region TestUsers
         //internal static List<TestUser> GetUsers()
         //{
         //    return new List<TestUser>
@@ -203,5 +210,6 @@ namespace SpaAuthServer
         //        }
         //    };
         //}
+        #endregion
     }
 }

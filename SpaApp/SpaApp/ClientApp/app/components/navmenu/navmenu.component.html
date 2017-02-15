@@ -13,23 +13,41 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
+                    <a [routerLink]="['/home']" 
+                       class="navigationLinkButton">
                         <span class='glyphicon glyphicon-home'></span> Home
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/counter']">
+                    <a [routerLink]="['/counter']"
+                       class="navigationLinkButton">
                         <span class='glyphicon glyphicon-education'></span> Counter
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/fetch-data']">
+                    <a [routerLink]="['/fetch-data']"
+                       class="navigationLinkButton">
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/person']">
+                    <a [routerLink]="['/person']" 
+                       class="navigationLinkButton">
                         <span class='glyphicon glyphicon-user'></span> Manage Persons 
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a class="navigationLinkButton" [attr.href]="'#'"
+                      *ngIf="!securityService.IsAuthorized()" 
+                       (click)="Login()">
+                        <span class='glyphicon glyphicon-log-in'></span> Login
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a class="navigationLinkButton" 
+                       *ngIf="securityService.IsAuthorized()" 
+                       (click)="Logout()">
+                        <span class='glyphicon glyphicon-log-out'></span> Logout
                     </a>
                 </li>
             </ul>

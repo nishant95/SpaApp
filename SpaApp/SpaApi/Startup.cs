@@ -121,8 +121,8 @@ namespace SpaApi
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = "http://localhost:54412/connect/authorize",
-                    TokenUrl= "http://localhost:54412/connect/token",
+                    AuthorizationUrl = "https://localhost:44313/connect/authorize",
+                    TokenUrl= "https://localhost:44313/connect/token",
                     Scopes = new Dictionary<string, string>
                     {
                         { "spaApi", "Access the Api" },
@@ -150,7 +150,7 @@ namespace SpaApi
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
-                Authority = "http://localhost:54412/",
+                Authority = "https://localhost:44313/",
                 AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
@@ -171,7 +171,7 @@ namespace SpaApi
             app.UseSwaggerUi(c=> 
             {
                 c.ConfigureOAuth2("swaggerclient", "", "", "swaggerclient", additionalQueryStringParameters: new {
-                    redirect_uri = "http://localhost:49616/swagger/o2c.html"
+                    redirect_uri = "https://localhost:44315/swagger/o2c.html"
                 });
 
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpaApi");

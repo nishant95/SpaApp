@@ -20,8 +20,9 @@ const appRoutes : Routes =
             { path: 'view', component: ViewPersonsComponent },
             { path: 'add', component: AddPersonComponent }
         ]
-    },
-    { path: '**', redirectTo: 'home' }
+    }
+    //    ,
+    //{ path: '**', redirectTo: 'home' }
 ]
 
 @NgModule({

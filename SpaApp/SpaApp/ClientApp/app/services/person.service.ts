@@ -4,21 +4,50 @@ import { PersonDto } from '../dtos/person.dto';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/from';
 import { APP_CONFIG, IAppConfig } from '../app-config';
+import { SecurityService } from './security.service';
 
 @Injectable()
 export class PersonService {
-    constructor( @Inject(APP_CONFIG) private config: IAppConfig, private http: Http) { }
+    constructor( @Inject(APP_CONFIG) private config: IAppConfig,
+        private http: Http,
+        private securityService: SecurityService) {
+        this.actionUrl = `${config.apiEndpoint}Person/`;
+    }
+
+    private actionUrl: string;
+    private headers: Headers;
+
+    private setHeaders() {
+
+        console.log('personservice: setHeaders started');
+
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Accept', 'application/json');
+
+        let token = this.securityService.GetToken();
+        if (token !== '') {
+            let tokenValue = 'Bearer ' + token;
+            console.log('tokenValue:' + tokenValue);
+            this.headers.append('Authorization', tokenValue);
+        }
+    }
 
     getPersons() {
-        return this.http.get(this.config.apiEndpoint + 'Person');
-        //return Observable.from(persons);
+        this.setHeaders();
+        let options = new RequestOptions({ headers: this.headers, body: '' });
+        return this.http.get(this.actionUrl, options);
+        //return Observable.from(persons); //Dummy data for UI test
     }
 
     addPerson(person: PersonDto) {
-        return this.http.post(this.config.apiEndpoint + 'Person', person);
+        this.setHeaders();
+        let options = new RequestOptions({ headers: this.headers, body: '' });
+        return this.http.post(this.actionUrl, person, options);
     }
 }
 
+//Dummy data for UI test
 const persons: PersonDto[] = [
     {
         FirstName: "Leonard",

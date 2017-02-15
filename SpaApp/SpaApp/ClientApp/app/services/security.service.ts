@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from '../app-config';
+import { WINDOW_REF, IWindowRef } from './browser-native.service';
 
 @Injectable()
 export class SecurityService {
@@ -16,13 +17,17 @@ export class SecurityService {
     private headers: Headers;
     private storage: any;
 
-    constructor( @Inject(APP_CONFIG) private config: IAppConfig, private _http: Http, private _router: Router) {
+    constructor( @Inject(APP_CONFIG) private config: IAppConfig,
+        private _http: Http,
+        private _router: Router,
+        @Inject(WINDOW_REF) private winRef: IWindowRef) {
 
         this.actionUrl = config.apiEndpoint;
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-        this.storage = sessionStorage; //localStorage;
+
+        if (typeof sessionStorage !== 'undefined' && undefined != sessionStorage)this.storage = sessionStorage; //localStorage;
 
         if (this.retrieve('_isAuthorized') !== '') {
             this.HasAdminRole = this.retrieve('HasAdminRole');
@@ -95,11 +100,11 @@ export class SecurityService {
 
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = 'https://localhost:44318/connect/authorize';
+        let authorizationUrl = this.config.authorizationUrl;
         let client_id = 'angular2client';
-        let redirect_uri = 'https://localhost:44311';
+        let redirect_uri = this.config.appBaseUrl;
         let response_type = 'id_token token';
-        let scope = 'dataEventRecords securedFiles openid';
+        let scope = 'spaApi openid';
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
@@ -116,16 +121,30 @@ export class SecurityService {
             'nonce=' + encodeURI(nonce) + '&' +
             'state=' + encodeURI(state);
 
-        window.location.href = url;
+        //if (typeof window !== 'undefined')
+        this._router
+            .navigate(["/"])
+            .then(result =>
+            {
+                window.open(url);
+                window.close();
+                this.winRef.getNativeWindow().location.replace('http://www.google.com/');
+                    //window.location.replace('http://www.google.com/');
+            });
+            //window.location = (url);// = url;
     }
 
     public AuthorizedCallback() {
         console.log('BEGIN AuthorizedCallback, no auth data');
         this.ResetAuthorizationData();
+        let hash;
+        let result: any;
 
-        let hash = window.location.hash.substr(1);
+        if (typeof window !== 'undefined')
+            hash = window.location.hash.substr(1);
 
-        let result: any = hash.split('&').reduce(function(result: any, item: string) {
+        if (undefined !=hash)
+         result = hash.split('&').reduce(function(result: any, item: string) {
             let parts = item.split('=');
             result[parts[0]] = parts[1];
             return result;
@@ -137,7 +156,7 @@ export class SecurityService {
         let token = '';
         let id_token = '';
         let authResponseIsValid = false;
-        if (!result.error) {
+        if (undefined!= result && !result.error) {
 
             if (result.state !== this.retrieve('authStateControl')) {
                 console.log('AuthorizedCallback incorrect state');
@@ -166,8 +185,8 @@ export class SecurityService {
             this.SetAuthorizationData(token, id_token);
             console.log(this.retrieve('authorizationData'));
 
-            // router navigate to DataEventRecordsList
-            this._router.navigate(['/dataeventrecords/list']);
+            // router navigate to desired url
+            this._router.navigate(['/']);
         } else {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
@@ -178,10 +197,10 @@ export class SecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = 'https://localhost:44318/connect/endsession';
+        let authorizationUrl = this.config.authServer + 'connect/endsession';
 
         let id_token_hint = this.retrieve('authorizationDataIdToken');
-        let post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
+        let post_logout_redirect_uri = this.config.appBaseUrl + 'Unauthorized';
 
         let url =
             authorizationUrl + '?' +
@@ -189,8 +208,8 @@ export class SecurityService {
             'post_logout_redirect_uri=' + encodeURI(post_logout_redirect_uri);
 
         this.ResetAuthorizationData();
-
-        window.location.href = url;
+        if (typeof window !== 'undefined')
+            window.location.href = url;
     }
 
     public HandleError(error: any) {
@@ -243,8 +262,8 @@ export class SecurityService {
             default:
                 throw 'Illegal base64url string!';
         }
-
-        return window.atob(output);
+        if (typeof window !== 'undefined')
+            return window.atob(output);
     }
 
     private getDataFromToken(token: any) {
@@ -258,7 +277,9 @@ export class SecurityService {
     }
 
     private retrieve(key: string): any {
-        let item = this.storage.getItem(key);
+        let item;
+        if (undefined != this.storage && 'getItem' in this.storage)
+            item = this.storage.getItem(key);
 
         if (item && item !== 'undefined') {
             return JSON.parse(this.storage.getItem(key));
@@ -268,12 +289,13 @@ export class SecurityService {
     }
 
     private store(key: string, value: any) {
-        this.storage.setItem(key, JSON.stringify(value));
+        if (undefined != this.storage && 'setItem' in this.storage)
+            this.storage.setItem(key, JSON.stringify(value));
     }
 
     private getUserData = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get('https://localhost:44318/connect/userinfo', {
+        return this._http.get(this.config.userInfoUrl, {
             headers: this.headers,
             body: ''
         }).map(res => res.json());
