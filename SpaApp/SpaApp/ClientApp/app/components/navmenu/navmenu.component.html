@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a class="navigationLinkButton" [attr.href]="'#'"
+                    <a class="navigationLinkButton"
                       *ngIf="!securityService.IsAuthorized()" 
                        (click)="Login()">
                         <span class='glyphicon glyphicon-log-in'></span> Login

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityServer4.Test;
 using System;
+using IdentityServer4;
 
 namespace SpaAuthServer
 {
@@ -25,34 +26,22 @@ namespace SpaAuthServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("spaApi")
-                {
-                    ApiSecrets =
-                    {
-                        new Secret("spaApiSecret".Sha256())
-                    },
-                    Scopes =
-                    {
-                        new Scope
-                        {
-                            Name = "spaScope",
-                            DisplayName = "Scope for the spa ApiResource"
-                        },
-                        new Scope
-                        {
-                            Name = "spa.admin",
-                            DisplayName = "Scope for the spa Admin",
-                            UserClaims= { "spa.admin" }
-                        },
-                        new Scope
-                        {
-                            Name = "spa.user",
-                            DisplayName = "Scope for the spa User",
-                            UserClaims= {  "spa.user" }
-                        }
-                    }
-                    //UserClaims = { "role", "admin", "user", "spaApi" }
-                }
+                new ApiResource("spaApi","SPA Api")
+                //{
+                //    ApiSecrets =
+                //    {
+                //        new Secret("spaApiSecret".Sha256())
+                //    },
+                //    Scopes =
+                //    {
+                //        new Scope
+                //        {
+                //            Name = "spaScope",
+                //            DisplayName = "Scope for the spa ApiResource"
+                //        }
+                //    }
+                //    //UserClaims = { "role", "admin", "user", "spaApi" }
+                //}
             };
         }
         #endregion
@@ -98,7 +87,6 @@ namespace SpaAuthServer
                     {
                         "openid",
                         "spaApi",
-                        "spaScope",
                         "role",
                         "spa.user",
                         "spa.admin"
@@ -131,10 +119,9 @@ namespace SpaAuthServer
                     },
                     AllowedScopes = new List<string>
                     {
-                       "openid",
-                        "spaApi",
-                        "spaScope",
-                        "role"
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "spaApi"
                     }
                 },
                 #endregion
@@ -169,7 +156,6 @@ namespace SpaAuthServer
                     {
                         "openid",
                         "spaApi",
-                        "spaScope",
                         "role"
                     }
                 }

@@ -1,12 +1,14 @@
-﻿import { OpaqueToken } from "@angular/core";
+﻿import { Injectable } from '@angular/core';
+//import { OpaqueToken } from "@angular/core";
 
-export let WINDOW_REF = new OpaqueToken("window_ref");
+//export let WINDOW_REF = new OpaqueToken("window_ref");
 
-export interface IWindowRef {
+export interface IWindow {
     getNativeWindow();
 }
 
-export const WindowRef : IWindowRef = {
+@Injectable()
+export class WindowBrowser implements IWindow {
 
     getNativeWindow() {
         return window;

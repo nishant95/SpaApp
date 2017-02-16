@@ -1,10 +1,11 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from '../app-config';
-import { WINDOW_REF, IWindowRef } from './browser-native.service';
+import { WindowBrowser, IWindow } from './browser-native.service';
 
 @Injectable()
 export class SecurityService {
@@ -19,8 +20,7 @@ export class SecurityService {
 
     constructor( @Inject(APP_CONFIG) private config: IAppConfig,
         private _http: Http,
-        private _router: Router,
-        @Inject(WINDOW_REF) private winRef: IWindowRef) {
+        private _router: Router) {
 
         this.actionUrl = config.apiEndpoint;
         this.headers = new Headers();
@@ -104,7 +104,7 @@ export class SecurityService {
         let client_id = 'angular2client';
         let redirect_uri = this.config.appBaseUrl;
         let response_type = 'id_token token';
-        let scope = 'spaApi openid';
+        let scope = 'openid spaApi';
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
@@ -121,17 +121,8 @@ export class SecurityService {
             'nonce=' + encodeURI(nonce) + '&' +
             'state=' + encodeURI(state);
 
-        //if (typeof window !== 'undefined')
-        this._router
-            .navigate(["/"])
-            .then(result =>
-            {
-                window.open(url);
-                window.close();
-                this.winRef.getNativeWindow().location.replace('http://www.google.com/');
-                    //window.location.replace('http://www.google.com/');
-            });
-            //window.location = (url);// = url;
+        window.location.href = url;
+        //window.open(url);
     }
 
     public AuthorizedCallback() {

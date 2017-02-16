@@ -51,17 +51,14 @@ namespace SpaAuthServer
             {
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.admin"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.user"));
-                claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
+                //claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
                 claims.Add(new Claim(JwtClaimTypes.Scope, "spaApi"));
             }
             else
-            {
-                claims.Add(new Claim(JwtClaimTypes.Role, "spa.admin"));
+            { 
                 claims.Add(new Claim(JwtClaimTypes.Role, "spa.user"));
-                claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
+                //claims.Add(new Claim(JwtClaimTypes.Role, "spa"));
                 claims.Add(new Claim(JwtClaimTypes.Scope, "spaApi"));
-                claims.Add(new Claim(JwtClaimTypes.Scope, "spa.user"));
-                claims.Add(new Claim(JwtClaimTypes.Scope, "spa.admin"));
             }
 
             claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));

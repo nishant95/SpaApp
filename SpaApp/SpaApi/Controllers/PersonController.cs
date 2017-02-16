@@ -15,7 +15,7 @@ namespace SpaApi
     /// <summary>
     /// Manage Persons
     /// </summary>
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class PersonController : Controller
     {
@@ -45,10 +45,12 @@ namespace SpaApi
         /// Returns all persons.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "spa.user")]
+        [Authorize]
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {
+            var claims = from c in User.Claims select new { c.Type, c.Value };
+
             List<PersonViewModel> personViewModels = new List<PersonViewModel>();
             List<Person> persons = _personService.GetAllPersons().ToList();
             foreach(var person in persons)
@@ -76,7 +78,7 @@ namespace SpaApi
         /// </summary>
         /// <param name="personViewModel"></param>
         /// <returns></returns>
-        [Authorize(Roles ="spa.admin")]
+        [Authorize("spaAdmin")]
         [HttpPost]
         public ActionResult Post([FromBody]PersonViewModel personViewModel)
         {

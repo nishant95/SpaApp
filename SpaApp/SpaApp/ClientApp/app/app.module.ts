@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 import { UniversalModule } from 'angular2-universal';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app/app.component'
@@ -14,7 +15,7 @@ import { ViewPersonsComponent } from './components/person/view-persons/view-pers
 import { PersonService } from './services';
 import { SecurityService } from './services';
 import { APP_CONFIG, AppConfig } from './app-config';
-import { WINDOW_REF, WindowRef } from './services';
+import { WindowBrowser, IWindow} from './services';
 
 @NgModule({
     imports: [
@@ -37,7 +38,7 @@ import { WINDOW_REF, WindowRef } from './services';
         PersonService,
         SecurityService,
         { provide: APP_CONFIG, useValue: AppConfig },
-        { provide: WINDOW_REF, useValue: WindowRef }
+        WindowBrowser
     ]
 })
 export class AppModule {

@@ -77,18 +77,17 @@ namespace SpaApi
                 .Build();
 
             // Configuration for Auth Server
-            services.AddAuthorization();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("spaAdmin", policyAdmin =>
                 {
-                    //policyAdmin.RequireClaim("role", "spa.admin");
-                    policyAdmin.RequireRole("spa.admin");
+                    policyAdmin.RequireClaim("role", "spa.admin");
+                    //policyAdmin.RequireRole("spa.admin");
                 });
                 options.AddPolicy("spaUser", policyUser =>
                 {
-                    policyUser.RequireRole("spa.user");
-                    //policyUser.RequireClaim("role", "spa.user");
+                    //policyUser.RequireRole("spa.user");
+                    policyUser.RequireClaim("role", "spa.user");
                 });
             });
 
@@ -154,7 +153,7 @@ namespace SpaApi
                 AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
-                AutomaticAuthenticate = true,
+                //AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
