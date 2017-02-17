@@ -1,9 +1,11 @@
-﻿using IdentityServer4.Models;
+﻿#region Namespaces
+using IdentityServer4.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityServer4.Test;
 using System;
 using IdentityServer4;
+#endregion
 
 namespace SpaAuthServer
 {
@@ -27,21 +29,21 @@ namespace SpaAuthServer
             return new List<ApiResource>
             {
                 new ApiResource("spaApi","SPA Api")
-                //{
-                //    ApiSecrets =
-                //    {
-                //        new Secret("spaApiSecret".Sha256())
-                //    },
-                //    Scopes =
-                //    {
-                //        new Scope
-                //        {
-                //            Name = "spaScope",
-                //            DisplayName = "Scope for the spa ApiResource"
-                //        }
-                //    }
-                //    //UserClaims = { "role", "admin", "user", "spaApi" }
-                //}
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("spaSecret".Sha256())
+                    },
+                    UserClaims =
+                    {
+                        "role",
+                        "admin",
+                        "user",
+                        "spaApi",
+                        "spa.user",
+                        "spa.admin"
+                    }
+                }
             };
         }
         #endregion
@@ -101,7 +103,7 @@ namespace SpaAuthServer
                     ClientName = "angular2client",
                     ClientId = "angular2client",
                     AccessTokenType = AccessTokenType.Reference,
-                    //AccessTokenLifetime = 3600, // in seconds, default 60 minutes uncomment to change
+                    AccessTokenLifetime = 3600, // in seconds, default 60 minutes uncomment to change
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>

@@ -50,7 +50,8 @@ export class SecurityService {
     }
 
     public GetToken(): any {
-        return this.retrieve('authorizationData');
+        //return this.retrieve('authorizationDataIdToken');
+       return this.retrieve('authorizationData');
     }
 
     public ResetAuthorizationData() {
@@ -104,7 +105,7 @@ export class SecurityService {
         let client_id = 'angular2client';
         let redirect_uri = this.config.appBaseUrl;
         let response_type = 'id_token token';
-        let scope = 'openid spaApi';
+        let scope = 'openid profile spaApi';
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 

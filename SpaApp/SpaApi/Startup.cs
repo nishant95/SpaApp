@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.IdentityModel.Tokens;
+#endregion
+
 
 namespace SpaApi
 {
@@ -153,7 +157,7 @@ namespace SpaApi
                 AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
-                //AutomaticAuthenticate = true,
+                AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
@@ -162,7 +166,6 @@ namespace SpaApi
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);
-
             app.UseMvc();
 
             //Swashbuckle Configuration

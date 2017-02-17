@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using SpaAuthServer.Data;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer4.Models;
+#endregion
 
 namespace SpaAuthServer
 {
@@ -60,11 +62,24 @@ namespace SpaAuthServer
                 });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SpaCorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
+
+            services.AddMvc();
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
@@ -74,8 +89,6 @@ namespace SpaAuthServer
                 .AddAspNetIdentity<ApplicationUser>()
                 //.AddTestUsers(Config.GetUsers())
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
-
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +102,8 @@ namespace SpaAuthServer
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+
+            app.UseCors("SpaCorsPolicy");
 
             app.UseIdentity();
             app.UseIdentityServer();

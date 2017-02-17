@@ -1,7 +1,7 @@
 ﻿<h1>Persons</h1>
 <!-- Person List -->
 <div id="person-nav-bar" class="row text-center">
-    <nav class="btn-group">
+    <nav class="btn-group" *ngIf="sessionStorage?.HasAdminRole">
         <a [routerLink]="['view']" class="btn btn-default" [routerLinkActive]="['active']">List</a>
         <a [routerLink]="['add']" class="btn btn-default" [routerLinkActive]="['active']">Add</a>
     </nav>

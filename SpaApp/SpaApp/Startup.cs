@@ -28,6 +28,17 @@ namespace SpaApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SpaCorsPolicy", builder =>
+                {
+                builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
+
             // Add framework services.
             services.AddMvc();
         }
@@ -37,6 +48,8 @@ namespace SpaApp
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors("SpaCorsPolicy");
 
             if (env.IsDevelopment())
             {

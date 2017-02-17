@@ -45,7 +45,7 @@ namespace SpaApi
         /// Returns all persons.
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize("spaUser")]
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {

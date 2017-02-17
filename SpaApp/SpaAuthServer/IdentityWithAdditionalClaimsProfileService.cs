@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,6 +10,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using SpaAuthServer.Models;
 using Microsoft.AspNetCore.Identity;
+#endregion
 
 namespace SpaAuthServer
 {
@@ -28,10 +30,8 @@ namespace SpaAuthServer
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var sub = context.Subject.GetSubjectId();
-
             var user = await _userManager.FindByIdAsync(sub);
             var principal = await _claimsFactory.CreateAsync(user);
-
             var claims = principal.Claims.ToList();
 
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
