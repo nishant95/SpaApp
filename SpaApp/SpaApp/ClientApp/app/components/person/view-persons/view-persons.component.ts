@@ -6,10 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
     selector: 'person',
-    template: require('./view-persons.component.html')
+    template: require('./view-persons.component.html'),
+    styles: [require('./view-persons.component.css')]
 })
 export class ViewPersonsComponent {
-    constructor(private personService: PersonService, private securityService: SecurityService) { }
+    constructor(private personService: PersonService,
+        private securityService: SecurityService) { }
 
     persons: PersonDto[] = [];
     ngOnInit() {
@@ -29,7 +31,8 @@ export class ViewPersonsComponent {
         );
     }
 
-    setSelected(index: number) {
-
+    public Login() {
+        console.log('Do login logic');
+        this.securityService.Authorize();
     }
 }

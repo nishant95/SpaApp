@@ -1,4 +1,10 @@
-﻿<div class="table-responsive">
+﻿<div *ngIf="!securityService.IsAuthorized()">
+    This content is protected. Please 
+    <a (click)="Login()">login</a>
+     to view this content.
+</div>
+
+<div class="table-responsive" *ngIf="securityService.IsAuthorized()">
     <table class="table table-striped table-bordered">
         <thead>
             <tr>

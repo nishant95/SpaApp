@@ -1,4 +1,5 @@
-﻿<h3>Add Person</h3>
+﻿<div *ngIf="sessionStorage?.HasAdminRole">
+<h3>Add Person</h3>
 <br/>
 <form class="form">
     <div class="form-group row">
@@ -53,3 +54,4 @@
 
     <button (click)="addPerson()" class="btn btn-primary">Add Person</button>
 </form>
+    </div>
