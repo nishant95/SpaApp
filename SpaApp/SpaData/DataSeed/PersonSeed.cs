@@ -4,6 +4,9 @@ using SpaData.Models;
 
 namespace SpaData.DataSeed
 {
+    /// <summary>
+    /// Data Seeding for Person
+    /// </summary>
     public static class PersonSeed
     {
         public static List<Person> Persons = new List<Person>()

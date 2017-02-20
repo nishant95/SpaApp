@@ -30,11 +30,23 @@ namespace SpaApi
 {
     public class Startup
     {
+        #region Privates and Constants
+
         private const string CorsPolicyName = "SpaCorsPolicy";
         private const string CertificateFile = "idsrv3test.pfx";
         private const string CertificatePassword = "idsrv3test";
-        
+
         private readonly IHostingEnvironment _env;
+
+        #endregion
+
+        #region Properties
+
+        public IConfigurationRoot Configuration { get; }
+
+        #endregion
+
+        #region Methods
 
         public Startup(IHostingEnvironment env)
         {
@@ -47,13 +59,12 @@ namespace SpaApi
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var folderForKeyStore = Configuration["KeyStore"];
+            #region Code for data encryption (Currently not in use)
 
+            var folderForKeyStore = Configuration["KeyStore"];
             var cert = new X509Certificate2(
                 Path.Combine(_env.ContentRootPath, CertificateFile),
                 CertificatePassword);
@@ -62,7 +73,11 @@ namespace SpaApi
             services.AddDataProtection()
                 .SetApplicationName("SpaApi")
                 .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
-                //.ProtectKeysWithCertificate(cert);
+            //.ProtectKeysWithCertificate(cert);
+
+            #endregion
+
+            #region Cross-Origin Policy
 
             //Cross-origin requests policy
             services.AddCors(options=>
@@ -75,6 +90,10 @@ namespace SpaApi
                         .AllowCredentials();
                 });
             });
+
+            #endregion
+
+            #region Setup Auth Logic
 
             var guestPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
@@ -96,6 +115,10 @@ namespace SpaApi
                 });
             });
 
+            #endregion
+
+            #region MVC, DbContext and Services
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AuthorizeFilter(guestPolicy));
@@ -114,6 +137,10 @@ namespace SpaApi
             // DI configuration for services.
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IPersonService, PersonService>();
+
+            #endregion
+
+            #region SwaggerGen Configuration
 
             // Swashbuckle Configuration
             services.AddSwaggerGen(c => {
@@ -146,19 +173,25 @@ namespace SpaApi
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "SpaApi.xml");
                 c.IncludeXmlComments(filePath);
             });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //Setup logging
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             //Allow CORS
             app.UseCors(CorsPolicyName);
 
+            //Disable default mapping for JWT
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
+
+            //Setup Auth Server
+            var identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = AuthAuthorityUriHttps,
                 AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
@@ -173,6 +206,7 @@ namespace SpaApi
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);
+
             app.UseMvc();
 
             //Swashbuckle Configuration
@@ -186,6 +220,7 @@ namespace SpaApi
                 c.SwaggerEndpoint(SwaggerEndpoint, SwaggerDescription);
             });
 
+            //Migrate to latest and run seeding logic
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<SpaContext>();
@@ -193,5 +228,7 @@ namespace SpaApi
                 context.EnsureSeedData();
             }
         }
+
+        #endregion
     }
 }
