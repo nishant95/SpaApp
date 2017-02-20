@@ -15,13 +15,15 @@ import { ViewPersonsComponent } from './components/person/view-persons/view-pers
 import { PersonService } from './services';
 import { SecurityService } from './services';
 import { APP_CONFIG, AppConfig } from './app-config';
-import { WindowBrowser, IWindow} from './services';
+import { WindowBrowser, IWindow } from './services';
+import { DatepickerModule } from 'angular2-material-datepicker'
 
 @NgModule({
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         AppRoutingModule,
-        FormsModule
+        FormsModule,
+        DatepickerModule
     ],
     bootstrap: [ AppComponent ],
     declarations: [

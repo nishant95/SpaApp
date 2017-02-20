@@ -45,10 +45,12 @@
         <div class="form-group row">
             <label class="col-md-2">Date of Birth</label>
             <div class="col-md-5">
-                <input type="date"
-                       class="form-control"
+                <!--<input class="form-control"
+                       type="text"
                        name="Dob"
-                       [(ngModel)]="person.Dob" />
+                       #personDob
+                       [(ngModel)]="person.Dob" />-->
+                <material-datepicker [(date)]="person.Dob"></material-datepicker>
             </div>
         </div>
 
