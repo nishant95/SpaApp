@@ -35,6 +35,10 @@ export class SecurityService {
         }
     }
 
+    public IsAdmin():boolean {
+        return this.retrieve('HasAdminRole');
+    }
+
     public IsAuthorized(): boolean {
         if (this._isAuthorized) {
             if (this.isTokenExpired('authorizationDataIdToken')) {
