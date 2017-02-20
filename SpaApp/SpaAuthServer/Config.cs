@@ -1,9 +1,6 @@
 ﻿#region Namespaces
 using IdentityServer4.Models;
 using System.Collections.Generic;
-using System.Security.Claims;
-using IdentityServer4.Test;
-using System;
 using IdentityServer4;
 using static SpaData.Constant;
 #endregion
@@ -142,10 +139,7 @@ namespace SpaAuthServer
                     {
                         "https://www.getpostman.com/oauth2/callback",
                     },
-                    PostLogoutRedirectUris = new List<string>
-                    {
-                        
-                    },
+                    PostLogoutRedirectUris = new List<string>(),
                     AllowedCorsOrigins = new List<string>
                     {
                         "*"
@@ -162,39 +156,6 @@ namespace SpaAuthServer
             };
         }
 
-        #endregion
-
-        //Not in use (For testing only)
-        #region TestUsers
-        //internal static List<TestUser> GetUsers()
-        //{
-        //    return new List<TestUser>
-        //    {
-        //        new TestUser
-        //        {
-        //            Username="qwerty",
-        //            Password="qwerty",
-        //            Claims=new Claim[] {
-        //                new Claim("name","qwerty"),
-        //                new Claim("email", "qwerty@gmail.com" ),
-        //                new Claim("role", "spa.user" ),
-        //                new Claim("role", "spaApi")
-        //            }
-
-        //        },
-        //        new TestUser
-        //        {
-        //            Username="asdfg",
-        //            Password="asdfg",
-        //            Claims=new Claim[] {
-        //                new Claim("name","asdfg"),
-        //                new Claim("email", "asdfg@gmail.com" ),
-        //                new Claim("role", "spa.admin" ),
-        //                new Claim("role", "spaApi")
-        //            }
-        //        }
-        //    };
-        //}
         #endregion
     }
 }

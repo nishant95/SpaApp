@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SpaData.Models;
+﻿using SpaData.Models;
 using System.Linq;
 
 namespace SpaApi.Services

@@ -23,7 +23,7 @@ namespace SpaAuthServer.Models
             ResourceScopes = resources.ApiResources.SelectMany(x=>x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (resources.OfflineAccess)
             {
-                ResourceScopes = ResourceScopes.Union(new ScopeViewModel[] {
+                ResourceScopes = ResourceScopes.Union(new[] {
                     ScopeViewModel.GetOfflineAccess(ScopesConsented.Contains(IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
                 });
             }

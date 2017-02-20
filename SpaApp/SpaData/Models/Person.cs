@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SpaData.Models
 {
+    /// <summary>
+    /// Entity model for Person
+    /// </summary>
     public class Person
     {
         #region Properties

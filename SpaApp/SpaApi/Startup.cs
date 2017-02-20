@@ -1,8 +1,6 @@
 ﻿#region Namespaces
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +23,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.IdentityModel.Tokens;
 using static SpaData.Constant;
 #endregion
 
@@ -188,6 +185,13 @@ namespace SpaApi
 
                 c.SwaggerEndpoint(SwaggerEndpoint, SwaggerDescription);
             });
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<SpaContext>();
+                context.Database.Migrate();
+                context.EnsureSeedData();
+            }
         }
     }
 }

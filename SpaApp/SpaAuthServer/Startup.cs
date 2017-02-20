@@ -1,11 +1,7 @@
 ﻿#region Namespaces
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +13,7 @@ using IdentityServer4.Services;
 using SpaAuthServer.Data;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
-using IdentityServer4.Models;
+
 #endregion
 
 namespace SpaAuthServer

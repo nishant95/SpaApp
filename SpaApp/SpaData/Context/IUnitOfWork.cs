@@ -1,7 +1,4 @@
-﻿using SpaData.Models;
-using SpaData.Repository;
-
-namespace SpaData
+﻿namespace SpaData
 {
     public interface IUnitOfWork
     {

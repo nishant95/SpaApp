@@ -1,15 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SpaData.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SpaData.FluentMappings
 {
+    /// <summary>
+    /// Fluent mapping for Person Entity
+    /// </summary>
     internal class PersonMapping: EntityTypeConfiguration<Person>
     {
+        #region Methods
+
+        /// <summary>
+        /// Specifies the mappings to be applied on the Entity Type Builder.
+        /// </summary>
+        /// <param name="builder">EntityTypeBuilder</param>
         public override void Map(EntityTypeBuilder<Person> builder)
         {
             builder.HasKey(value => value.Id);
@@ -20,5 +24,7 @@ namespace SpaData.FluentMappings
             builder.Property(value => value.Email).HasMaxLength(255);
             builder.Property(value => value.Dob);
         }
+
+        #endregion
     }
 }
