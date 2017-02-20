@@ -5,6 +5,7 @@ using System.Security.Claims;
 using IdentityServer4.Test;
 using System;
 using IdentityServer4;
+using static SpaData.Constant;
 #endregion
 
 namespace SpaAuthServer
@@ -59,35 +60,32 @@ namespace SpaAuthServer
                 new Client
                 {
                     RequireConsent = false,
-                    ClientName = "swaggerclient",
-                    ClientId = "swaggerclient",
+                    ClientName = SwaggerClientName,
+                    ClientId = SwaggerClientId,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    //ClientSecrets = new List<Secret>
-                    //{
-                    //    new Secret("swaggersecret".Sha256())
-                    //},
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:44315/swagger",
-                        "https://localhost:44315/swagger",
-                        "http://localhost:44315/swagger/o2c.html",
-                        "https://localhost:44315/swagger/o2c.html"
+                        SwaggerHomeUriHttp,
+                        SwaggerHomeUriHttps,
+                        SwaggerRedirectUriHttp,
+                        SwaggerRedirectUriHttps
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:44315/swagger"
+                        SwaggerHomeUriHttp
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44315/",
-                        "http://localhost:44315/"
+                        SpaApiHomeUriHttp,
+                        SpaApiHomeUriHttps
                     },
                     AllowedScopes = new List<string>
                     {
-                        "openid",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
                         "spaApi",
                         "role",
                         "spa.user",
@@ -100,24 +98,25 @@ namespace SpaAuthServer
                 new Client
                 {
                     RequireConsent = false,
-                    ClientName = "angular2client",
-                    ClientId = "angular2client",
+                    ClientName = SpaAngularClientName,
+                    ClientId = SpaAngularClientId,
                     AccessTokenType = AccessTokenType.Reference,
                     AccessTokenLifetime = 3600, // in seconds, default 60 minutes uncomment to change
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:65035/"
+                        SpaAppHomeUriHttp,
+                        SpaAppHomeUriHttps
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:65035/logout"
+                        SpaAppLogoutRedirectUri
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://localhost:65035/",
-                        "https://localhost:44335/"
+                        SpaAppHomeUriHttp,
+                        SpaAppHomeUriHttps
                     },
                     AllowedScopes = new List<string>
                     {
@@ -132,16 +131,13 @@ namespace SpaAuthServer
                 new Client
                 {
                     //RequireConsent = false,
-                    ClientName = "postman",
-                    ClientId = "postman",
+                    ClientName = PostmanClientName,
+                    ClientId = PostmanClientId,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowAccessTokensViaBrowser = true,
-                    //ClientSecrets = new List<Secret>
-                    //{
-                    //    new Secret("swaggersecret".Sha256())
-                    //},
+                    
                     RedirectUris = new List<string>
                     {
                         "https://www.getpostman.com/oauth2/callback",
@@ -156,7 +152,8 @@ namespace SpaAuthServer
                     },
                     AllowedScopes = new List<string>
                     {
-                        "openid",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
                         "spaApi",
                         "role"
                     }

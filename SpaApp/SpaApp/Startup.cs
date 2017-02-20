@@ -13,6 +13,8 @@ namespace SpaApp
 {
     public class Startup
     {
+        private const string CorsPolicyName = "SpaCorsPolicy";
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -30,7 +32,7 @@ namespace SpaApp
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("SpaCorsPolicy", builder =>
+                options.AddPolicy(CorsPolicyName, builder =>
                 {
                 builder.AllowAnyOrigin()
                     .AllowAnyHeader()
@@ -49,7 +51,7 @@ namespace SpaApp
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseCors("SpaCorsPolicy");
+            app.UseCors(CorsPolicyName);
 
             if (env.IsDevelopment())
             {

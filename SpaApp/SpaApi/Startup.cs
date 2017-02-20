@@ -26,13 +26,17 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.IdentityModel.Tokens;
+using static SpaData.Constant;
 #endregion
-
 
 namespace SpaApi
 {
     public class Startup
     {
+        private const string CorsPolicyName = "SpaCorsPolicy";
+        private const string CertificateFile = "idsrv3test.pfx";
+        private const string CertificatePassword = "idsrv3test";
+        
         private readonly IHostingEnvironment _env;
 
         public Startup(IHostingEnvironment env)
@@ -54,8 +58,8 @@ namespace SpaApi
             var folderForKeyStore = Configuration["KeyStore"];
 
             var cert = new X509Certificate2(
-                Path.Combine(_env.ContentRootPath, "idsrv3test.pfx"),
-                "idsrv3test");
+                Path.Combine(_env.ContentRootPath, CertificateFile),
+                CertificatePassword);
 
             // Important The folderForKeyStore needs to be backed up.
             services.AddDataProtection()
@@ -66,7 +70,7 @@ namespace SpaApi
             //Cross-origin requests policy
             services.AddCors(options=>
             {
-                options.AddPolicy("SpaCorsPolicy",builder =>
+                options.AddPolicy(CorsPolicyName, builder =>
                 {
                     builder.AllowAnyOrigin()
                         .AllowAnyMethod()
@@ -105,8 +109,10 @@ namespace SpaApi
                 });
 
             services.AddAutoMapper();
-            services.AddDbContext<SpaContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SpaDatabase"), option=>option.MigrationsAssembly("SpaApi")));
+            services.AddDbContext<SpaContext>(options => 
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SpaDatabase"), option => option.MigrationsAssembly("SpaApi"));
+            });
 
             // DI configuration for services.
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
@@ -115,17 +121,21 @@ namespace SpaApi
             // Swashbuckle Configuration
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info(){
-                    Contact = new Contact() { Email = "nishant.h@mindfiresolutions.com", Name = "Nishant" },
-                    Title = "SpaApi Docs",
-                    Version="v1"
+                    Contact = new Contact()
+                    {
+                        Email = DeveloperEmailSwagger,
+                        Name = DeveloperNameSwagger
+                    },
+                    Title = TitleSwagger,
+                    Version = VersionSwagger
                 });
 
                 c.AddSecurityDefinition("oauth2", new OAuth2Scheme
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = "https://localhost:44313/connect/authorize",
-                    TokenUrl= "https://localhost:44313/connect/token",
+                    AuthorizationUrl = AuthorizeEndpointHttps,
+                    TokenUrl= TokenEndpointHttps,
                     Scopes = new Dictionary<string, string>
                     {
                         { "spaApi", "Access the Api" },
@@ -148,12 +158,12 @@ namespace SpaApi
             loggerFactory.AddDebug();
 
             //Allow CORS
-            app.UseCors("SpaCorsPolicy");
+            app.UseCors(CorsPolicyName);
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
-                Authority = "https://localhost:44313/",
+                Authority = AuthAuthorityUriHttps,
                 AllowedScopes = new List<string> { "spaApi" }, //,"spaScope", "spa.user","spa.admin"
                 ApiSecret = "spaSecret",
                 ApiName = "spaApi",
@@ -172,11 +182,11 @@ namespace SpaApi
             app.UseSwagger();
             app.UseSwaggerUi(c=> 
             {
-                c.ConfigureOAuth2("swaggerclient", "", "", "swaggerclient", additionalQueryStringParameters: new {
-                    redirect_uri = "https://localhost:44315/swagger/o2c.html"
+                c.ConfigureOAuth2(SwaggerClientName, "", "", SwaggerClientName, additionalQueryStringParameters: new {
+                    redirect_uri = SwaggerRedirectUriHttps
                 });
 
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpaApi");
+                c.SwaggerEndpoint(SwaggerEndpoint, SwaggerDescription);
             });
         }
     }

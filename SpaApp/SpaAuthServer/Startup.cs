@@ -24,6 +24,8 @@ namespace SpaAuthServer
 {
     public class Startup
     {
+        private const string CertificatePath = "idsrv3test.pfx";
+        private const string CertificatePassword = "idsrv3test";
         private readonly IHostingEnvironment _environment;
 
         public Startup(IHostingEnvironment env)
@@ -51,8 +53,8 @@ namespace SpaAuthServer
         public void ConfigureServices(IServiceCollection services)
         {
             var cert = new X509Certificate2(
-                Path.Combine(_environment.ContentRootPath,"idsrv3test.pfx"),
-                "idsrv3test");
+                Path.Combine(_environment.ContentRootPath, CertificatePath),
+                CertificatePassword);
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("SpaAuthDatabase"),
