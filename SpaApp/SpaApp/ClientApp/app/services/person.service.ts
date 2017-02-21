@@ -42,7 +42,7 @@ export class PersonService {
 
     addPerson(person: PersonDto) {
         this.setHeaders();
-        let options = new RequestOptions({ headers: this.headers, body: '' });
+        let options = new RequestOptions({ headers: this.headers });
         return this.http.post(this.actionUrl, person, options);
     }
 }

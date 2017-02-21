@@ -117,6 +117,43 @@ namespace SpaApi
 
             #endregion
 
+            #region SwaggerGen Configuration
+
+            // Swashbuckle Configuration
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Info()
+                {
+                    Contact = new Contact()
+                    {
+                        Email = DeveloperEmailSwagger,
+                        Name = DeveloperNameSwagger
+                    },
+                    Title = TitleSwagger,
+                    Version = VersionSwagger
+                });
+
+                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "implicit",
+                    AuthorizationUrl = AuthorizeEndpointHttps,
+                    TokenUrl = TokenEndpointHttps,
+                    Scopes = new Dictionary<string, string>
+                    {
+                        { "spaApi", "Access the Api" },
+                        { "spa.user", "User Access" },
+                        { "spa.admin", "Admin Access" }
+                    }
+                });
+
+                c.OperationFilter<SwaggerAuthFilter>();
+
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "SpaApi.xml");
+                c.IncludeXmlComments(filePath);
+            });
+
+            #endregion
+
             #region MVC, DbContext and Services
 
             services.AddMvc(options =>
@@ -140,41 +177,6 @@ namespace SpaApi
 
             #endregion
 
-            #region SwaggerGen Configuration
-
-            // Swashbuckle Configuration
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new Info(){
-                    Contact = new Contact()
-                    {
-                        Email = DeveloperEmailSwagger,
-                        Name = DeveloperNameSwagger
-                    },
-                    Title = TitleSwagger,
-                    Version = VersionSwagger
-                });
-
-                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
-                {
-                    Type = "oauth2",
-                    Flow = "implicit",
-                    AuthorizationUrl = AuthorizeEndpointHttps,
-                    TokenUrl= TokenEndpointHttps,
-                    Scopes = new Dictionary<string, string>
-                    {
-                        { "spaApi", "Access the Api" },
-                        { "spa.user", "User Access" },
-                        { "spa.admin", "Admin Access" }
-                    }
-                });
-
-                c.OperationFilter<SwaggerAuthFilter>();
-
-                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "SpaApi.xml");
-                c.IncludeXmlComments(filePath);
-            });
-
-            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -207,7 +209,7 @@ namespace SpaApi
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);
 
-            app.UseMvc();
+            
 
             //Swashbuckle Configuration
             app.UseSwagger();
@@ -227,6 +229,8 @@ namespace SpaApi
                 context.Database.Migrate();
                 context.EnsureSeedData();
             }
+
+            app.UseMvc();
         }
 
         #endregion

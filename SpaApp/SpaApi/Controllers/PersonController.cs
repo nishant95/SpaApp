@@ -50,8 +50,6 @@ namespace SpaApi
         [HttpGet]
         public IEnumerable<PersonViewModel> Get()
         {
-            var claims = from c in User.Claims select new { c.Type, c.Value };
-
             List<PersonViewModel> personViewModels = new List<PersonViewModel>();
             List<Person> persons = _personService.GetAllPersons().ToList();
             foreach(var person in persons)
@@ -83,7 +81,9 @@ namespace SpaApi
         [HttpPost]
         public ActionResult Post([FromBody]PersonViewModel personViewModel)
         {
-            if(!ModelState.IsValid)
+            var claims = from c in User.Claims select new { c.Type, c.Value };
+
+            if (!ModelState.IsValid)
             {
                 IEnumerable<ModelError> allErrors = ModelState.Values
                     .SelectMany(v => v.Errors);
