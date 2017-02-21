@@ -1,17 +1,27 @@
 ﻿<div *ngIf="securityService.IsAdmin() == true">
     <h3>Add Person</h3>
     <br />
-    <form class="form">
+    <form class="form"
+          #form="ngForm"
+          (ngSubmit)="addPerson(form.value)"
+          novalidate>
+
         <div class="form-group row">
-            <label class="col-md-2">First Name</label>
+            <label class="col-md-2">First Name*</label>
             <div class="col-md-5">
                 <input type="text"
                        class="form-control"
                        name="FirstName"
-                       [(ngModel)]="person.FirstName" />
+                       [(ngModel)]="person.FirstName" 
+                       required/>
             </div>
         </div>
-
+        <div class="form-group row"
+             [hidden]="form.controls.FirstName?.valid || (form.controls.FirstName?.pristine && !form.submitted)" >
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                First Name is required.
+            </small>
+        </div>
         <div class="form-group row">
             <label class="col-md-2">Middle Name</label>
             <div class="col-md-5">
@@ -33,27 +43,51 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-md-2">Email</label>
+            <label class="col-md-2">Email*</label>
             <div class="col-md-5">
                 <input type="text"
                        class="form-control"
                        name="Email"
-                       [(ngModel)]="person.Email" />
+                       [(ngModel)]="person.Email" 
+                       validateEmail
+                       required />
             </div>
+        </div>
+
+        <div class="form-group row"
+             [hidden]="form.controls.Email?.valid || (form.controls.Email?.pristine && !form.submitted)">
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Email is required.
+            </small>
+        </div>
+
+        <div class="form-group row"
+             [hidden]="form.controls.Email?.valid || (form.controls.Email?.pristine && !form.submitted) || !form.controls.Email?.hasError('validateEmail')">
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Email is invalid.
+            </small>
         </div>
 
         <div class="form-group row">
-            <label class="col-md-2">Date of Birth</label>
+            <label class="col-md-2">Date of Birth*</label>
             <div class="col-md-5">
-                <!--<input class="form-control"
-                       type="text"
-                       name="Dob"
-                       #personDob
-                       [(ngModel)]="person.Dob" />-->
-                <material-datepicker [(date)]="person.Dob"></material-datepicker>
+                <my-date-picker name="Dob" [options]="myDatePickerOptions"
+                                [(ngModel)]="person.Dob" required></my-date-picker>
             </div>
         </div>
 
-        <button (click)="addPerson()" class="btn btn-primary">Add Person</button>
+        <div class="form-group row"
+             [hidden]="form.controls.Dob?.valid || (form.controls.Dob?.pristine && !form.submitted)">
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Date of Birth is required.
+            </small>
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary"
+                [disabled]="!form.valid">
+            Add Person
+        </button>
+
     </form>
 </div>
