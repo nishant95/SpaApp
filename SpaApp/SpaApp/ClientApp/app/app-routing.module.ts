@@ -1,28 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
-import { CounterComponent } from './components/counter/counter.component';
-import { PersonComponent } from './components/person/person.component';
-import { AddPersonComponent } from './components/person/add-person/add-person.component';
-import { ViewPersonsComponent } from './components/person/view-persons/view-persons.component';
+import { HomeComponent, FetchDataComponent, CounterComponent, PersonComponent } from './components';
+import { AddPersonComponent, ViewPersonsComponent, EditPersonComponent } from './components/person';
 
 const appRoutes : Routes =
 [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'counter', component: CounterComponent },
     { path: 'fetch-data', component: FetchDataComponent },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: './', redirectTo: 'home', pathMatch: 'full' },
     { path: 'person', component: PersonComponent,
         children:
         [
-            { path: '', redirectTo: 'view', pathMatch: 'full' },
             { path: 'view', component: ViewPersonsComponent },
-            { path: 'add', component: AddPersonComponent }
+            { path: 'add', component: AddPersonComponent },
+            { path: 'edit/:id', component: EditPersonComponent },
+            { path: './', redirectTo: 'view', pathMatch: 'full' },
+            { path: '', redirectTo: 'view', pathMatch: 'full' }
         ]
-    }
-    //    ,
-    //{ path: '**', redirectTo: 'home' }
+    },
+    
 ]
 
 @NgModule({

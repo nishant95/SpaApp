@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
-import { PersonDto } from '../../../dtos';
-import { PersonService } from '../../../services';
-import { SecurityService } from '../../../services';
 import { BrowserModule } from '@angular/platform-browser';
+import { Router } from "@angular/router";
+import { PersonDto } from '../../../dtos';
+import { PersonService, SecurityService } from '../../../services';
 
 @Component({
     selector: 'person',
@@ -10,7 +10,8 @@ import { BrowserModule } from '@angular/platform-browser';
     styles: [require('./view-persons.component.css')]
 })
 export class ViewPersonsComponent {
-    constructor(private personService: PersonService,
+    constructor(private router: Router,
+        private personService: PersonService,
         private securityService: SecurityService) { }
 
     persons: PersonDto[] = [];
@@ -29,6 +30,11 @@ export class ViewPersonsComponent {
             },
             error => { }
         );
+    }
+
+    editPerson(id: number) {
+        var personId = this.persons[id].Id;
+        if (this.securityService.HasAdminRole) this.router.navigateByUrl('person/edit/' + personId);
     }
 
     public Login() {

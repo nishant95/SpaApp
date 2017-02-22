@@ -1,0 +1,109 @@
+﻿<div *ngIf="securityService.IsAdmin() == true">
+    <h3>Edit Person : {{person.FirstName}}</h3>
+    <br />
+    <form class="form"
+          #form="ngForm"
+          (ngSubmit)="updatePerson()"
+          novalidate>
+
+        <div class="form-group row">
+            <label class="col-md-2">First Name*</label>
+            <div class="col-md-5">
+                <input type="text"
+                       class="form-control"
+                       name="FirstName"
+                       [ngModel]="person?.FirstName"
+                       (ngModelChange)="person.FirstName"
+                       required />
+            </div>
+        </div>
+        <div class="form-group row"
+             [hidden]="form.controls.FirstName?.valid || (form.controls.FirstName?.pristine && !form.submitted)">
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                First Name is required.
+            </small>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-md-2">Middle Name</label>
+            <div class="col-md-5">
+                <input type="text"
+                       class="form-control"
+                       name="MiddleName"
+                       [ngModel]="person?.MiddleName"
+                       (ngModelChange)="person.MiddleName"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-2">Last Name</label>
+            <div class="col-md-5">
+                <input type="text"
+                       class="form-control"
+                       name="LastName"
+                       [ngModel]="person?.LastName"
+                       (ngModelChange)="person.LastName"/>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-md-2">Email*</label>
+            <div class="col-md-5">
+                <input type="text"
+                       class="form-control"
+                       name="Email"
+                       [ngModel]="person?.Email"
+                       (ngModelChange)="person.Email"
+                       validateEmail
+                       required />
+            </div>
+        </div>
+
+        <div class="form-group row"
+             [hidden]="form.controls.Email?.valid
+             || (form.controls.Email?.pristine && !form.submitted)
+             || !form.controls.Email?.hasError('required')">
+
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Email is required.
+            </small>
+        </div>
+
+        <div class="form-group row"
+             [hidden]="form.controls.Email?.valid
+             || (form.controls.Email?.pristine && !form.submitted)
+             || !form.controls.Email?.hasError('validateEmail')">
+
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Email is invalid.
+            </small>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-md-2">Date of Birth*</label>
+            <div class="col-md-5">
+                <my-date-picker name="Dob" 
+                                [(ngModel)]="person.Dob"
+                                [selDate]="selDate" 
+                                [options]="myDatePickerOptions"
+                                required></my-date-picker>
+            </div>
+        </div>
+
+        <div class="form-group row"
+             [hidden]="form.controls.Dob?.valid || (form.controls.Dob?.pristine && !form.submitted)">
+            <small class="col-md-5 col-md-offset-2 text-danger">
+                Date of Birth is required.
+            </small>
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary"
+                [disabled]="!form.valid">
+             Update Person
+        </button>
+    </form>
+</div>

@@ -40,10 +40,22 @@ export class PersonService {
         //return Observable.from(persons); //Dummy data for UI test
     }
 
+    getPerson(personId) {
+        this.setHeaders();
+        let options = new RequestOptions({ headers: this.headers });
+        return this.http.get(this.actionUrl + personId, options);
+    }
+
     addPerson(person: PersonDto) {
         this.setHeaders();
         let options = new RequestOptions({ headers: this.headers });
         return this.http.post(this.actionUrl, person, options);
+    }
+
+    updatePerson(person: PersonDto) {
+        this.setHeaders();
+        let options = new RequestOptions({ headers: this.headers });
+        return this.http.put(this.actionUrl, person, options);
     }
 }
 

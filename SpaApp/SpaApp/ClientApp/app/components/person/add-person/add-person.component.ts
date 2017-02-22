@@ -2,10 +2,11 @@
 import { FormControl, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 import { Router } from "@angular/router";
 import { DatepickerModule } from 'angular2-material-datepicker'
-import { PersonService } from "../../../services";
-import { SecurityService } from "../../../services";
-import { PersonDto } from "../../../dtos";
 import { IMyOptions } from 'mydatepicker';
+
+import { PersonService, SecurityService } from "../../../services";
+import { PersonDto } from "../../../dtos";
+
 
 @Component({
     selector: "person",
@@ -18,8 +19,6 @@ export class AddPersonComponent {
         private securityService: SecurityService) {
     }
 
-    @ViewChild("personDob") personDob: ElementRef;
-
     person = new PersonDto();
     private myDatePickerOptions: IMyOptions = {
         dateFormat: 'dd.mm.yyyy',
@@ -28,14 +27,10 @@ export class AddPersonComponent {
     addPerson() {
         this.personService.addPerson(this.person).subscribe(
             value => {
-                this.router.navigateByUrl("person/view");
+                this.router.navigate(["person/view"]);
             },
             error => {
                 this.router.navigateByUrl("person/view");
             });
-    }
-
-    ngAfterViewInit() {
-        //console.log($(this.personDob.nativeElement).val());
     }
 }

@@ -65,6 +65,7 @@ namespace SpaApi
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize("spaAdmin")]
         [HttpGet("{id}")]
         public PersonViewModel Get(long id)
         {

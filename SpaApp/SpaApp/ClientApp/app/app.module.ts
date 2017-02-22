@@ -4,9 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UniversalModule } from 'angular2-universal';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-
-import { AppComponent, PersonComponent, CounterComponent, FetchDataComponent, HomeComponent, NavMenuComponent } from './components';
-import { AddPersonComponent, ViewPersonsComponent } from './components/person';
+import {
+    AppComponent, PersonComponent, CounterComponent, FetchDataComponent,
+    HomeComponent, NavMenuComponent
+} from './components';
+import { AddPersonComponent, ViewPersonsComponent, EditPersonComponent } from './components/person';
 import { PersonService, SecurityService, WindowBrowser, IWindow } from './services';
 import { SpaEmailValidator } from './directives';
 import { APP_CONFIG, AppConfig } from './app-config';
@@ -31,7 +33,8 @@ import { MyDatePickerModule } from 'mydatepicker';
         HomeComponent,
         PersonComponent,
         AddPersonComponent,
-        ViewPersonsComponent
+        ViewPersonsComponent,
+        EditPersonComponent
     ],
     providers: [
         PersonService,
