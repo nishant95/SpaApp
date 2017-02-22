@@ -22,6 +22,8 @@
                 First Name is required.
             </small>
         </div>
+
+
         <div class="form-group row">
             <label class="col-md-2">Middle Name</label>
             <div class="col-md-5">
@@ -42,6 +44,7 @@
             </div>
         </div>
 
+
         <div class="form-group row">
             <label class="col-md-2">Email*</label>
             <div class="col-md-5">
@@ -55,18 +58,25 @@
         </div>
 
         <div class="form-group row"
-             [hidden]="form.controls.Email?.valid || (form.controls.Email?.pristine && !form.submitted)">
+             [hidden]="form.controls.Email?.valid 
+             || (form.controls.Email?.pristine && !form.submitted) 
+             || !form.controls.Email?.hasError('required')">
+
             <small class="col-md-5 col-md-offset-2 text-danger">
                 Email is required.
             </small>
         </div>
 
         <div class="form-group row"
-             [hidden]="form.controls.Email?.valid || (form.controls.Email?.pristine && !form.submitted) || !form.controls.Email?.hasError('validateEmail')">
+             [hidden]="form.controls.Email?.valid 
+             || (form.controls.Email?.pristine && !form.submitted) 
+             || !form.controls.Email?.hasError('validateEmail')">
+
             <small class="col-md-5 col-md-offset-2 text-danger">
                 Email is invalid.
             </small>
         </div>
+
 
         <div class="form-group row">
             <label class="col-md-2">Date of Birth*</label>
@@ -82,6 +92,7 @@
                 Date of Birth is required.
             </small>
         </div>
+
 
         <button type="submit"
                 class="btn btn-primary"
