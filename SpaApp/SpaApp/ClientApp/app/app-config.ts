@@ -23,3 +23,14 @@ export const AppConfig: IAppConfig = {
     tokenUrl: 'https://localhost:44313/connect/token',
     userInfoUrl: 'https://localhost:44313/connect/userinfo'
 };
+
+export const AppConfig1: IAppConfig = {
+    appBaseUrl: 'http://192.168.11.128:65035/',
+
+    apiEndpoint: 'https://192.168.11.128:44315/api/',
+
+    authServer: 'http://192.168.11.128:44313/',
+    authorizationUrl: 'https://192.168.11.128:44313/connect/authorize',
+    tokenUrl: 'https://192.168.11.128:44313/connect/token',
+    userInfoUrl: 'https://192.168.11.128:44313/connect/userinfo'
+};

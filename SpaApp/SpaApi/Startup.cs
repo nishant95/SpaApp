@@ -65,15 +65,15 @@ namespace SpaApi
             #region Code for data encryption (Currently not in use)
 
             var folderForKeyStore = Configuration["KeyStore"];
-            var cert = new X509Certificate2(
-                Path.Combine(_env.ContentRootPath, CertificateFile),
-                CertificatePassword);
+            //var cert = new X509Certificate2(
+            //    Path.Combine(_env.ContentRootPath, CertificateFile),
+            //    CertificatePassword);
 
             // Important The folderForKeyStore needs to be backed up.
-            services.AddDataProtection()
-                .SetApplicationName("SpaApi")
-                .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
-            //.ProtectKeysWithCertificate(cert);
+            //services.AddDataProtection()
+            //    .SetApplicationName("SpaApi")
+            //    .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
+            ////.ProtectKeysWithCertificate(cert);
 
             #endregion
 

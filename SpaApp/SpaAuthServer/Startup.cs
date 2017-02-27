@@ -13,6 +13,8 @@ using IdentityServer4.Services;
 using SpaAuthServer.Data;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 #endregion
 
@@ -78,6 +80,11 @@ namespace SpaAuthServer
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
 
             services.AddMvc();
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("SpaCorsPolicy"));
+            });
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
