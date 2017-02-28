@@ -1,6 +1,14 @@
 {
   "name": "Angular2Spa",
   "version": "0.0.0",
+  "scripts": {
+    "build": "tsc -p ClientApp/",
+    "build:watch": "tsc -p ClientApp/ -w",
+    "pretest": "npm run build",
+    "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
+    "pretest:once": "npm run build",
+    "test:once": "karma start karma.conf.js --single-run"
+  },
   "dependencies": {
     "@angular/common": "2.0.0",
     "@angular/compiler": "2.0.0",
@@ -30,6 +38,7 @@
     "mydatepicker": "^1.6.16",
     "preboot": "^4.5.2",
     "raw-loader": "^0.5.1",
+    "requirejs": "^2.3.3",
     "rxjs": "5.0.0-beta.12",
     "style-loader": "^0.13.0",
     "to-string-loader": "^1.1.5",
@@ -41,5 +50,14 @@
     "webpack-hot-middleware": "^2.10.0",
     "webpack-merge": "^0.14.1",
     "zone.js": "^0.6.21"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.43",
+    "concurrently": "^3.3.0",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-requirejs": "^1.1.0"
   }
 }
