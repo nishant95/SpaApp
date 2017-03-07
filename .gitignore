@@ -240,5 +240,10 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-SpaApp/SpaApp/ClientApp/**/*.js
-SpaApp/SpaApp/ClientApp/**/*.map
+SpaApp/SpaApp/ClientApp/app/**/*.js
+SpaApp/SpaApp/ClientApp/app/**/*.map
+SpaApp/SpaApp/ClientApp/boot-client.js
+SpaApp/SpaApp/ClientApp/boot-client.js.map
+SpaApp/SpaApp/ClientApp/boot-server.js
+SpaApp/SpaApp/ClientApp/boot-server.js.map
+SpaApp/SpaApp/npm-debug.log.*

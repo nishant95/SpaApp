@@ -11,16 +11,19 @@ module.exports = function(config) {
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
-
+	
 	plugins: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher')
-    ],
+		'karma-jasmine',
+		'karma-webpack',
+		'karma-chrome-launcher',
+		'karma-requirejs',
+		'karma-sourcemap-loader'
+	],
 
     // list of files / patterns to load in the browser
     files: [
       'test-main.js',
-      {pattern: '**/*.spec.js', included:true}
+      {pattern: '**/*.spec.js', included:true, watched: false}
     ],
 
 
@@ -33,8 +36,17 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+		'test-main.js': ['webpack', 'sourcemap'],
+		'**/*.spec.js': ['webpack', 'sourcemap']
     },
 
+	webpack: {
+		devtool: 'inline-source-map'
+	},
+	
+	webpackMiddleware: {
+		stats: 'errors-only'
+	},
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
