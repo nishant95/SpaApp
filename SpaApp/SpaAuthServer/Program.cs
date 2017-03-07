@@ -13,7 +13,8 @@ namespace SpaAuthServer
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
+		
+         //run the app
             host.Run();
         }
     }
