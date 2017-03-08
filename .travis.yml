@@ -14,8 +14,8 @@ apt:
 
 before_install:  
  - command -v nvm
- - nvm install 0.10
- - nvm use 0.10
+ - nvm install 6.10
+ - nvm use 6.10
  - node --version
  - export CHROME_BIN=/usr/bin/google-chrome
  - export DISPLAY=:99.0
