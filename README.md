@@ -1,5 +1,6 @@
 # SPA App Boilerplate
 [![Build Status](https://travis-ci.org/nishant95/SpaApp.svg?branch=master)](https://travis-ci.org/nishant95/SpaApp)
+
 A boilerplate single page app using Angular2 and ASP.NET Core.
 The solution is separated into four projects:
 * __SpaApi__ Resource server
