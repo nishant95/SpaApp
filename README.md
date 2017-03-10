@@ -1,5 +1,5 @@
 # SPA App Boilerplate
-[![Build Status](https://travis-ci.org/nishant95/SpaApp.svg?branch=master)](https://travis-ci.org/nishant95/SpaApp) [[![Build Status]](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)
+[![Build Status](https://travis-ci.org/nishant95/SpaApp.svg?branch=master)](https://travis-ci.org/nishant95/SpaApp) [![Build Status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)
 
 A boilerplate single page app using Angular2 and ASP.NET Core.
 The solution is separated into four projects:
