@@ -1,4 +1,4 @@
-# SPA App Boilerplate
+# Angular2 ASP.net Core SPA Boilerplate
 [![Build Status](https://travis-ci.org/nishant95/SpaApp.svg?branch=master)](https://travis-ci.org/nishant95/SpaApp) [![Build status](https://ci.appveyor.com/api/projects/status/vj7cg8q6ci8s93d9?svg=true)](https://ci.appveyor.com/project/nishant95/spaapp)
 
 A boilerplate single page app using Angular2 and ASP.NET Core.
