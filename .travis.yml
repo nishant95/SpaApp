@@ -11,7 +11,11 @@ apt:
   packages:
     - google-chrome-stable
     - google-chrome-beta
-
+    
+cache:
+  directories:
+    - node_modules
+    
 before_install:  
  - command -v nvm
  - nvm install 6.10
