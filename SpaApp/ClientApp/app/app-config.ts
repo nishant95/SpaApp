@@ -14,7 +14,7 @@ export interface IAppConfig {
 }
 
 export const AppConfig: IAppConfig = {
-    appBaseUrl: 'http://localhost:65035/',
+    appBaseUrl: 'http://localhost:57717/',
 
     apiEndpoint: 'https://localhost:44315/api/',
 
@@ -25,7 +25,7 @@ export const AppConfig: IAppConfig = {
 };
 
 export const AppConfig1: IAppConfig = {
-    appBaseUrl: 'http://192.168.11.128:65035/',
+    appBaseUrl: 'http://192.168.11.128:57717/',
 
     apiEndpoint: 'https://192.168.11.128:44315/api/',
 

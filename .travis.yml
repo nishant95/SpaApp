@@ -31,7 +31,7 @@ before_install:
 
 before_script:
 - npm install -g karma-cli
-- cd ./SpaApp/SpaApp/
+- cd ./SpaApp/
 - npm install
 - npm run build
 

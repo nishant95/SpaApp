@@ -104,7 +104,7 @@ namespace SpaAuthServer
                     RedirectUris = new List<string>
                     {
                         SpaAppHomeUriHttp,
-                        SpaAppHomeUriHttps
+                        //SpaAppHomeUriHttps //Uncomment if hosting SpaApp on HTTPS
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
@@ -113,7 +113,7 @@ namespace SpaAuthServer
                     AllowedCorsOrigins = new List<string>
                     {
                         SpaAppHomeUriHttp,
-                        SpaAppHomeUriHttps
+                        //SpaAppHomeUriHttps //Uncomment if hosting SpaApp on HTTPS
                     },
                     AllowedScopes = new List<string>
                     {

@@ -12,9 +12,9 @@ namespace SpaData
 
         #region SpaApp
 
-        public const string SpaAppHomeUriHttp = "http://localhost:65035/";
-        public const string SpaAppHomeUriHttps = "https://localhost:44335/";
-        public const string SpaAppLogoutRedirectUri = "http://localhost:65035/logout";
+        public const string SpaAppHomeUriHttp = "http://localhost:57717/";
+        //public const string SpaAppHomeUriHttps = "https://localhost:44335/";
+        public const string SpaAppLogoutRedirectUri = "http://localhost:57717/logout";
         public const string SpaAngularClientName = "angular2client";
         public const string SpaAngularClientId = "angular2client";
 
@@ -67,8 +67,8 @@ namespace SpaData
 
     #region SpaApp
 
-        public const string SpaAppHomeUriHttp = "http://192.168.11.128:65035/";
-        public const string SpaAppHomeUriHttps = "https://192.168.11.128:44335/";
+        public const string SpaAppHomeUriHttp = "http://192.168.11.128:57717/";
+        public const string SpaAppHomeUriHttps = "https://192.168.11.128:57717/";
         public const string SpaAppLogoutRedirectUri = SpaAppHomeUriHttp + "logout";
         public const string SpaAngularClientName = "angular2client";
         public const string SpaAngularClientId = "angular2client";
