@@ -3,7 +3,7 @@ before_build:
 - cmd: pwd
 - cmd: dotnet restore
 build:
-  project: ./SpaApp/
+  project: ./SpaApp/SpaApp/SpaApp.sln
   verbosity: minimal
 notifications:
 - provider: Email
