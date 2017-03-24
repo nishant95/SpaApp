@@ -1,0 +1,14 @@
+version: 1.0.{build}
+before_build:
+- cmd: pwd
+- cmd: dotnet restore
+build:
+  project: ./SpaApp/
+  verbosity: minimal
+notifications:
+- provider: Email
+  to:
+  - hoodanishant1995@gmail.com
+  on_build_success: false
+  on_build_failure: false
+  on_build_status_changed: false
