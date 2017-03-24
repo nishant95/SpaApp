@@ -1,9 +1,13 @@
 version: 1.0.{build}
 before_build:
 - cmd: pwd
+- cmd: dir
+- cmd: cd SpaApp
+- cmd: pwd
+- cmd: dir
 - cmd: dotnet restore
 build:
-  project: ./SpaApp/SpaApp/SpaApp.sln
+  project: ./SpaApp.sln
   verbosity: minimal
 notifications:
 - provider: Email
